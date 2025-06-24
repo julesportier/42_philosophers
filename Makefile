@@ -11,6 +11,7 @@ NAME := philo
 SRC_DIR := src
 vpath %.c $(SRC_DIR)
 SRC := main.c \
+	   parsing.c \
 	   error.c \
 	   arg_to_int.c
 # thread_test.c

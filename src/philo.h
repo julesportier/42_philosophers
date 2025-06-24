@@ -18,6 +18,7 @@
 # endif
 
 # define ERROR -1
+# define UNSET -2
 
 typedef struct s_settings
 {

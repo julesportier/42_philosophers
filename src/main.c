@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 
 	if (argc < 5 || argc > 6)
 		return (print_err("invalid number of arguments"));
-	if (init_settings(&settings, argc, argv) != 0)
+	if (init_settings(&settings, argc, argv) == ERROR)
 		return (ERROR);
 	if (DEBUG)
 	{

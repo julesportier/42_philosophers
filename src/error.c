@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include "philo.h"
 
 static int	ft_strlen(char *str)
 {
@@ -47,7 +48,7 @@ int	print_err(char *str)
 	len = error_prefix_len + ft_strlen(str) + 1;
 	msg = malloc((len + 1) * sizeof(char));
 	if (!msg)
-		return (-1);
+		return (ERROR);
 	i = -1;
 	while (error_prefix[++i])
 		msg[i] = error_prefix[i];
@@ -58,5 +59,5 @@ int	print_err(char *str)
 	msg[++i + error_prefix_len] = '\0';
 	write(2, msg, len);
 	free(msg);
-	return (-1);
+	return (ERROR);
 }
