@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/06/23 11:36:51 by juportie         ###   ########.fr       */
+/*   Updated: 2025/06/24 08:44:42 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # ifndef DEBUG
 #  define DEBUG 1
 # endif
+
+# define ERROR -1
 
 typedef struct s_settings
 {
@@ -28,6 +30,8 @@ typedef struct s_settings
 
 // error.c
 int	print_err(char *msg);
+// parsing.c
+int	init_settings(t_settings *settings, int argc, char *argv[]);
 // arg_to_int.c
 int	arg_to_int(char *nptr);
 
