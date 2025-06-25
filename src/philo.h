@@ -31,6 +31,9 @@ typedef struct s_settings
 
 // error.c
 int	print_err(char *msg);
+// time.c
+unsigned long long	get_time();
+unsigned long long	get_elapsed_time(unsigned long long *ref);
 // parsing.c
 int	init_settings(t_settings *settings, int argc, char *argv[]);
 // arg_to_int.c

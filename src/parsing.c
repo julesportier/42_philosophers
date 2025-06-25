@@ -35,5 +35,7 @@ int	init_settings(t_settings *settings, int argc, char *argv[])
 		settings->number_of_times_each_philosophers_must_eat = UNSET;
 	if (settings->number_of_times_each_philosophers_must_eat == ERROR)
 		return (ERROR);
+	// ?SET THIS JUST BEFORE BEGGINING THE ROUTINE FOR BETTER ACCURACY?
+	settings->start_time = get_time();
 	return (0);
 }
