@@ -3,8 +3,6 @@ CFLAGS := -Wall -Werror -Wextra
 CFLAGS_DB := -Wall -Werror -Wextra -g3
 CFLAGS_NE := -g3
 CFLAGS_REL := -Wall -Werror -Wextra -O2
-DEP_FLAGS = -MMD
-DEP_FILES := $(OBJ:.o=.d)
 
 NAME := philo
 
@@ -12,13 +10,21 @@ SRC_DIR := src
 vpath %.c $(SRC_DIR)
 SRC := main.c \
 	   time.c \
+	   utils.c \
 	   parsing.c \
 	   error.c \
-	   arg_to_int.c
+	   print.c \
+	   threads_init.c \
+	   routine_fork_utils.c \
+	   routine_fork_take.c \
+	   routine.c
 # thread_test.c
 
 BUILD_DIR := build
 OBJ := $(addprefix $(BUILD_DIR)/, $(SRC:.c=.o))
+
+DEP_FLAGS = -MMD
+DEP_FILES := $(OBJ:.o=.d)
 
 all: $(BUILD_DIR) $(NAME)
 
