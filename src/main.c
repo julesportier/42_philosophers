@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:06:58 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 11:18:28 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:25:18 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,12 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 	printf("start time == %llu us\n", shared->start_time);
 #endif
 
-	if (init_threads(
-			threads,
-			philos,
-			shared->philos_nbr
-		) == ERROR
-	)
+	if (init_threads(threads, philos, shared->philos_nbr) == ERROR)
 	{
 		free(threads);
 		return (ERROR);
 	}
+	free(threads);
 	return (0);
 }
 
