@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 09:13:07 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 09:53:56 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,6 @@ typedef struct s_shared
 	pthread_mutex_t		block_mutex;
 }	t_shared;
 
-// USELESS ?
-// typedef enum e_philo_state
-// {
-// 	// dead,
-// 	sleeping,
-// 	eating,
-// 	thinking,
-// }	t_philo_state;
-
 typedef enum e_fork_state
 {
 	available,
@@ -78,20 +69,12 @@ typedef struct s_fork
 	t_fork_state	state;
 }	t_fork;
 
-// typedef enum e_owned_forks
-// {
-// 	right_fork,
-// 	left_fork
-// }	t_owned_forks;
-
 typedef struct s_philo
 {
 	int					id;
 	int					first_philo;// USELESS ?
-	// t_philo_state		state;
 	t_fork 				*forks;
 	int					owned_forks[2];
-	// ADD A MEMBER TO KNOW OWNED FORKS ?
 	int					meals_taken;
 	unsigned long long	last_meal;
 	t_shared	*shared;
@@ -129,6 +112,10 @@ t_fork	*left_fork(t_philo *philo);
 int	try_take_fork(t_fork *fork, int *owned);
 // int	try_take_forks(t_fork *first_fork, t_fork *second_fork);
 int	release_forks(t_philo *philo);
+// routine_utils.c
+int	set_death(t_death *death, t_philo *philo);
+int	death_happened(t_death *death);
+int	reached_time(unsigned long long start_time, int time);
 // routine.c
 void	*routine(void *philo_struct);
 
