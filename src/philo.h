@@ -76,6 +76,7 @@ unsigned long long	get_elapsed_time_ms(unsigned long long ref);
 // deinit.c
 int	deinit_shared_mutexes(t_shared *shared);
 int	free_forks(t_fork *forks, int philos_nbr);
+int	free_all(t_shared *shared, t_fork *forks, t_philo *philos);
 // parsing.c
 int	init_shared(t_shared *shared, int argc, char *argv[]);
 // print.c

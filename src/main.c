@@ -112,8 +112,5 @@ int	main(int argc, char *argv[])
 		return (ERROR);
 	}
 	start_simulation(&shared, philos);
-	deinit_shared_mutexes(&shared);
-	free_forks(forks, shared.philos_nbr);
-	free(philos);
-	return (0);
+	return (free_all(&shared, forks, philos));
 }
