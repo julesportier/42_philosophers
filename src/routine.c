@@ -13,10 +13,6 @@
 #include "philo.h"
 #include <unistd.h>
 
-#if (DEBUG && DBG_ROUTINE)
-	#include <stdio.h>
-#endif
-
 static int	start_eating(t_philo *philo)
 {
 	unsigned long long	start_time;
@@ -34,10 +30,6 @@ static int	start_eating(t_philo *philo)
 	}
 	release_forks(philo);
 	philo->meals_taken += 1;
-	philo->last_meal = get_time();
-
-	// check number of meals if needed
-	// ++philo->first_philo;
 	philo->last_meal = get_time();
 	return (0);
 }
@@ -62,15 +54,6 @@ static int	start_sleeping(t_philo *philo)
 	return (0);
 }
 
-// Used to simplify threads synchronization.
-// int	calc_think_padding(t_shared *shared)
-// {
-// 	if (shared->time_to_eat > shared->time_to_sleep)
-// 		return (shared->time_to_eat - shared->time_to_sleep);
-// 	else
-// 		return (shared->time_to_sleep - shared->time_to_eat);
-// }
-
 static int	start_thinking(t_philo *philo)
 {
 	if (reached_time(philo->last_meal, philo->shared->time_to_die))
@@ -94,16 +77,6 @@ static int	start_thinking(t_philo *philo)
 		if (!philo->owned_forks[1])
 			if (try_take_fork(left_fork(philo), philo, 1) == ERROR)
 				return (ERROR);
-
-#if (DEBUG && DBG_ROUTINE)
-	usleep(200 * 1000);
-	printf(
-		"start_thinking philo %d philo->owned_forks[0] == %d ; philo->owned_forks[1] == %d\n",
-		philo->id,
-		philo->owned_forks[0],
-		philo->owned_forks[1]);
-#endif
-	
 	}
 	return (0);
 }
@@ -116,15 +89,6 @@ void	*routine(void *philo_struct)
 	if (!is_even(philo->id))
 	{
 		start_sleeping(philo);
-
-#if (DEBUG && DBG_ROUTINE)
-	usleep(200 * 1000);
-	printf(
-		"start_thinking philo %d philo->owned_forks[0] == %d ; philo->owned_forks[1] == %d\n",
-		philo->id,
-		philo->owned_forks[0],
-		philo->owned_forks[1]);
-#endif
 	}
 	while (1)
 	{

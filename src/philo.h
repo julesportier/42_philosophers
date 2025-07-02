@@ -14,16 +14,6 @@
 # define PHILO_H
 
 # include <pthread.h>
-# include <sys/time.h>
-
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
-# define DBG_MAIN 0
-# define DBG_TIME 0
-# define DBG_SIM 0
-# define DBG_FORK 1
-# define DBG_ROUTINE 1
 
 # define ERROR -1
 # define UNSET -2

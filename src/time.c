@@ -11,12 +11,7 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <stdlib.h>
 #include <sys/time.h>
-
-#if (DEBUG && DBG_TIME)
-	#include <stdio.h>
-#endif
 
 unsigned long long	get_time()
 {
@@ -35,10 +30,5 @@ unsigned long long	get_elapsed_time_ms(unsigned long long ref)
 	time = get_time();
 	time = time - ref;
 	time = time / 1000;
-
-#if (DEBUG && DBG_TIME)
-	printf("elapsed time ms == %llu\n", time);
-#endif
-
 	return (time);
 }

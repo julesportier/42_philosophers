@@ -12,9 +12,6 @@
 
 #include "philo.h"
 #include <stdlib.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <stdio.h>
 
 int	init_forks(t_fork **forks, int philos_nbr)
 {
@@ -28,16 +25,12 @@ int	init_forks(t_fork **forks, int philos_nbr)
 	{
 		if (pthread_mutex_init(&(*forks)[i].mutex, NULL))
 			return (print_err("init_forks: mutex init failure\n"));
-#if DEBUG && DBG_FORK
-	printf("init_forks mutex %d == %p\n", i, &(*forks)[i].mutex);
-#endif
 		(*forks)[i].state = available;
 		++i;
 	}
 	return (0);
 }
 
-// Alloc all philos on a unique memory area.
 int	init_philos(
 	t_philo **philos,
 	t_shared *shared,
@@ -86,11 +79,6 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 		return (print_err("start_simulation: threads mem alloc failure\n"));
 	shared->start_time = get_time();
 	init_philos_last_meal(philos);
-
-#if (DEBUG && DBG_SIM)
-	printf("start time == %llu us\n", shared->start_time);
-#endif
-
 	if (init_threads(threads, philos, shared->philos_nbr) == ERROR)
 	{
 		free(threads);
@@ -103,8 +91,8 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 int	main(int argc, char *argv[])
 {
 	t_shared 	shared;
-	t_fork		*forks = NULL;
-	t_philo		*philos = NULL;
+	t_fork		*forks;
+	t_philo		*philos;
 
 	if (argc < 5 || argc > 6)
 		return (print_err("invalid number of arguments\n"));
@@ -117,23 +105,6 @@ int	main(int argc, char *argv[])
 		deinit_shared_mutexes(&shared);
 	 	return (ERROR);
 	}
-
-#if (DEBUG && DBG_MAIN)
-	printf("number_of_philosophers == %d\n"
-			"time_to_die == %d\n"
-			"time_to_eat == %d\n"
-			"time_to_sleep == %d\n"
-			"number_of_times_each_philosophers_must_eat == %d\n"
-			"start_time == %llu us\n",
-			shared.number_of_philosophers,
-			shared.time_to_die,
-			shared.time_to_eat,
-			shared.time_to_sleep,
-			shared.number_of_times_each_philosophers_must_eat,
-			shared.start_time);
-#endif
-
-	// init_monitor();
 	if (init_philos(&philos, (t_shared *)&shared, forks) == ERROR)
 	{
 		deinit_shared_mutexes(&shared);

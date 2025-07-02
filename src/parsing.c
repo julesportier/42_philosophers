@@ -88,7 +88,7 @@ int	init_shared(t_shared *shared, int argc, char *argv[])
 		shared->meals_nbr = UNSET;
 	if (shared->meals_nbr == ERROR)
 		return (ERROR);
-	shared->start_time = 0;// THIS IS SET AGAIN AT SIMULATION START
+	shared->start_time = 0;
 	if (init_shared_mutexes(shared) == ERROR)
 		return (ERROR);
 	return (0);
