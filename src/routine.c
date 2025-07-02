@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 10:39:12 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:22:42 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	start_eating(t_philo *philo)
 	release_forks(philo);
 	philo->meals_taken += 1;
 	philo->last_meal = get_time();
-	++philo->meals_taken;
+
 	// check number of meals if needed
 	// ++philo->first_philo;
 	philo->last_meal = get_time();
@@ -130,7 +130,7 @@ void	*routine(void *philo_struct)
 		if (death_happened(&philo->shared->death))
 			return (0);
 		start_eating(philo);
-		if (death_happened(&philo->shared->death))
+		if (death_happened(&philo->shared->death) || eaten_enough_meals(philo))
 			return (0);
 		start_sleeping(philo);
 	}

@@ -66,3 +66,14 @@ int	reached_time(unsigned long long start_time, int time)
 	else
 		return (0);
 }
+
+int	eaten_enough_meals(t_philo *philo)
+{
+	if (philo->shared->meals_nbr != UNSET
+		&& philo->meals_taken >= philo->shared->meals_nbr)
+	{
+		return (1);
+	}
+	else
+		return (0);
+}

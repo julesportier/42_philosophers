@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 10:40:42 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:13:27 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	release_forks(t_philo *philo);
 int	set_death(t_death *death, t_philo *philo);
 int	death_happened(t_death *death);
 int	reached_time(unsigned long long start_time, int time);
+int	eaten_enough_meals(t_philo *philo);
 // routine.c
 void	*routine(void *philo_struct);
 

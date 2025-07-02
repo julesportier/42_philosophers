@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:06:58 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 09:13:56 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:18:28 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int	main(int argc, char *argv[])
 		return (print_err("invalid number of arguments"));
 	if (init_shared(&shared, argc, argv) == ERROR)
 		return (ERROR);
+	if (shared.philos_nbr == 0 || shared.meals_nbr == 0)
+		return (0);
 	if (init_forks(&forks, shared.philos_nbr) == ERROR)
 	{
 		deinit_shared_mutexes(&shared);
