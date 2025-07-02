@@ -83,8 +83,6 @@ int	print_err(char *msg);
 // time.c
 unsigned long long	get_time();
 unsigned long long	get_elapsed_time_ms(unsigned long long ref);
-// utils.c
-int	is_even(int i);
 // deinit.c
 int	deinit_shared_mutexes(t_shared *shared);
 int	free_forks(t_fork *forks, int philos_nbr);
@@ -105,6 +103,7 @@ t_fork	*left_fork(t_philo *philo);
 int	try_take_fork(t_fork *fork, t_philo *philo, int side);
 int	release_forks(t_philo *philo);
 // routine_utils.c
+int	is_even(int i);
 int	set_death(t_death *death, t_philo *philo);
 int	death_happened(t_death *death);
 int	reached_time(unsigned long long start_time, int time);

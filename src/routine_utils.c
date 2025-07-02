@@ -12,6 +12,14 @@
 
 #include "philo.h"
 
+int	is_even(int i)
+{
+	if (i % 2 == 0)
+		return (1);
+	else
+		return (0);
+}
+
 int	set_death(t_death *death, t_philo *philo)
 {
 	int	ret;

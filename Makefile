@@ -11,7 +11,6 @@ SRC_DIR := src
 vpath %.c $(SRC_DIR)
 SRC := main.c \
 	   time.c \
-	   utils.c \
 	   deinit.c \
 	   parsing.c \
 	   error.c \
