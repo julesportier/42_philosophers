@@ -14,6 +14,24 @@
 #include <stdio.h>
 #include <unistd.h>
 
+static int	ft_strlen(char *str)
+{
+	int	len;
+
+	len = 0;
+	if (!str)
+		return (len);
+	while (str[len])
+		++len;
+	return (len);
+}
+
+int	print_err(char *str)
+{
+	write(2, str, ft_strlen(str));
+	return (ERROR);
+}
+
 int	print_timestamp(char *str, t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->shared->death.mutex))

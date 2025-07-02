@@ -13,7 +13,6 @@ SRC := main.c \
 	   time.c \
 	   deinit.c \
 	   parsing.c \
-	   error.c \
 	   print.c \
 	   threads_init.c \
 	   routine_fork_take.c \
