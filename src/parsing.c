@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 08:34:16 by juportie          #+#    #+#             */
-/*   Updated: 2025/06/30 10:18:39 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:29:50 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,10 @@ static int	init_shared_mutexes(t_shared *shared)
 {
 	if (pthread_mutex_init(&shared->death.mutex, NULL))
 		return (ERROR);
-	if (pthread_mutex_init(&shared->printf_mutex, NULL))
-	{
-		pthread_mutex_destroy(&shared->death.mutex);
-		return (ERROR);
-	}
 	shared->death.state = alive;
 	if (pthread_mutex_init(&shared->block_mutex, NULL))
 	{
 		pthread_mutex_destroy(&shared->death.mutex);
-		pthread_mutex_destroy(&shared->printf_mutex);
 		return (ERROR);
 	}
 	return (0);

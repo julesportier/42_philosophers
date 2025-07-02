@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 11:22:42 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:21:05 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void	*routine(void *philo_struct)
 	philo = (t_philo *)philo_struct;
 	if (!is_even(philo->id))
 	{
+		if (death_happened(&philo->shared->death))
+			return (0);
 		start_sleeping(philo);
 
 #if (DEBUG && DBG_ROUTINE)

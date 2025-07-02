@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 09:00:01 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 09:12:14 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:30:23 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	deinit_shared_mutexes(t_shared *shared)
 
 	ret = 0;
 	if (pthread_mutex_destroy(&shared->death.mutex))
-		ret = ERROR;
-	if (pthread_mutex_destroy(&shared->printf_mutex))
 		ret = ERROR;
 	if (pthread_mutex_destroy(&shared->block_mutex))
 		ret = ERROR;

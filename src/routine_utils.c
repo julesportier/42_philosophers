@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 11:27:47 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:27:54 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,8 @@ int	set_death(t_death *death, t_philo *philo)
 		return (print_err("set_death: mutex lock failed"));
 	if (death->state == alive)
 	{
+		print_death_timestamp(philo);
 		death->state = dead;
-		if (print_timestamp("died", philo) == ERROR)
-			ret = ERROR;
 	}
 	if (pthread_mutex_unlock(&death->mutex))
 		return (print_err("set_death: mutex unlock failed"));

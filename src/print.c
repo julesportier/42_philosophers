@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/06/30 12:03:03 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:28:59 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,25 @@
 
 int	print_timestamp(char *str, t_philo *philo)
 {
-	if (pthread_mutex_lock(&philo->shared->printf_mutex))
+	if (pthread_mutex_lock(&philo->shared->death.mutex))
 		return (print_err("print_timestamp: mutex lock failed"));
-	printf(
-		"%llu %d %s\n",
-		get_elapsed_time_ms(philo->shared->start_time),
-		philo->id + 1,
-		str
-	);
-	(void)str;
-	if (pthread_mutex_unlock(&philo->shared->printf_mutex))
+	if (philo->shared->death.state == alive)
+	{
+		printf(
+			"%llu %d %s\n",
+			get_elapsed_time_ms(philo->shared->start_time),
+			philo->id + 1,
+			str);
+	}
+	if (pthread_mutex_unlock(&philo->shared->death.mutex))
 		return (print_err("print_timestamp: mutex unlock failed"));
 	return (0);
+}
+
+void	print_death_timestamp(t_philo *philo)
+{
+	printf(
+		"%llu %d is dead\n",
+		get_elapsed_time_ms(philo->shared->start_time),
+		philo->id + 1);
 }

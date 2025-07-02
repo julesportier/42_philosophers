@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 11:13:27 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:29:10 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_shared
 	int					meals_nbr;
 	unsigned long long	start_time;
 	t_death				death;
-	pthread_mutex_t		printf_mutex;
 	pthread_mutex_t		block_mutex;
 }	t_shared;
 
@@ -97,6 +96,7 @@ int	free_forks(t_fork *forks, int philos_nbr);
 int	init_shared(t_shared *shared, int argc, char *argv[]);
 // print.c
 int	print_timestamp(char *str, t_philo *philo);
+void	print_death_timestamp(t_philo *philo);
 // threads_init.c
 int	alloc_threads(pthread_t **threads, int philos_nbr);
 int	init_threads(
