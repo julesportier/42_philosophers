@@ -46,9 +46,9 @@ static int	arg_to_int(char *nptr)
 	{
 		if (!ft_isdigit(nptr[i]))
 			return (print_err(
-					"argument must contain only positive numbers"));
+					"argument must contain only positive numbers\n"));
 		if (overflows(nbr, nptr[i] - '0'))
-			return (print_err("argument number is too big"));
+			return (print_err("argument number is too big\n"));
 		nbr = nbr * 10 + (nptr[i] - '0');
 		++i;
 	}

@@ -25,7 +25,7 @@ t_fork	*left_fork(t_philo *philo)
 int	try_take_fork(t_fork *fork, t_philo *philo, int side)
 {
 	if (pthread_mutex_lock(&fork->mutex))
-		return (print_err("try_take_fork: mutex lock failed"));
+		return (print_err("try_take_fork: mutex lock failed\n"));
 	if (fork->state == available)
 	{
 		fork->state = locked;
@@ -33,18 +33,18 @@ int	try_take_fork(t_fork *fork, t_philo *philo, int side)
 		print_timestamp("has taken a fork", philo);
 	}
 	if (pthread_mutex_unlock(&fork->mutex))
-		return (print_err("try_take_fork: mutex unlock failed"));
+		return (print_err("try_take_fork: mutex unlock failed\n"));
 	return (0);
 }
 
 static int	release_fork(t_fork *fork, int *owned)
 {
 	if (pthread_mutex_lock(&fork->mutex))
-		return (print_err("release_fork: mutex lock failed"));
+		return (print_err("release_fork: mutex lock failed\n"));
 	fork->state = available;
 	*owned = 0;
 	if (pthread_mutex_unlock(&fork->mutex))
-		return (print_err("release_fork: mutex unlock failed"));
+		return (print_err("release_fork: mutex unlock failed\n"));
 	return (0);
 }
 

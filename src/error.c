@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
 #include "philo.h"
 
@@ -27,37 +26,8 @@ static int	ft_strlen(char *str)
 	return (len);
 }
 
-// void	putstr_fd(char *str, int fd)
-// {
-// 	int	len;
-//
-// 	len = ft_strlen(str);
-// 	write(fd, str, len);
-// }
-
 int	print_err(char *str)
 {
-	char	*error_prefix;
-	int		error_prefix_len;
-	char	*msg;
-	int		len;
-	int		i;
-
-	error_prefix = "philo: error: ";
-	error_prefix_len = ft_strlen(error_prefix);
-	len = error_prefix_len + ft_strlen(str) + 1;
-	msg = malloc((len + 1) * sizeof(char));
-	if (!msg)
-		return (ERROR);
-	i = -1;
-	while (error_prefix[++i])
-		msg[i] = error_prefix[i];
-	i = -1;
-	while (str[++i])
-		msg[i + error_prefix_len] = str[i];
-	msg[i + error_prefix_len] = '\n';
-	msg[++i + error_prefix_len] = '\0';
-	write(2, msg, len);
-	free(msg);
+	write(2, str, ft_strlen(str));
 	return (ERROR);
 }

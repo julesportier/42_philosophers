@@ -22,12 +22,12 @@ int	init_forks(t_fork **forks, int philos_nbr)
 
 	*forks = malloc(sizeof(t_fork) * philos_nbr);
 	if (!*forks)
-		return (print_err("init_forks: mem alloc failure"));
+		return (print_err("init_forks: mem alloc failure\n"));
 	i = 0;
 	while (i < philos_nbr)
 	{
 		if (pthread_mutex_init(&(*forks)[i].mutex, NULL))
-			return (print_err("init_forks: mutex init failure"));
+			return (print_err("init_forks: mutex init failure\n"));
 #if DEBUG && DBG_FORK
 	printf("init_forks mutex %d == %p\n", i, &(*forks)[i].mutex);
 #endif
@@ -48,7 +48,7 @@ int	init_philos(
 
 	*philos = malloc(sizeof(t_philo) * shared->philos_nbr);
 	if (!*philos)
-		return (print_err("init_philos: mem alloc failure"));
+		return (print_err("init_philos: mem alloc failure\n"));
 	i = 0;
 	while (i < shared->philos_nbr)
 	{
@@ -83,7 +83,7 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 	pthread_t		*threads;
 
 	if (alloc_threads(&threads, shared->philos_nbr) == ERROR)
-		return (print_err("start_simulation: threads mem alloc failure"));
+		return (print_err("start_simulation: threads mem alloc failure\n"));
 	shared->start_time = get_time();
 	init_philos_last_meal(philos);
 
@@ -107,7 +107,7 @@ int	main(int argc, char *argv[])
 	t_philo		*philos = NULL;
 
 	if (argc < 5 || argc > 6)
-		return (print_err("invalid number of arguments"));
+		return (print_err("invalid number of arguments\n"));
 	if (init_shared(&shared, argc, argv) == ERROR)
 		return (ERROR);
 	if (shared.philos_nbr == 0 || shared.meals_nbr == 0)
