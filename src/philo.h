@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 13:29:10 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:46:56 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <pthread.h>
 # include <sys/time.h>
-
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -29,8 +28,9 @@
 # define ERROR -1
 # define UNSET -2
 
-# define DEAD_CHECK_FREQ 1000
-# define THINKING_PADDING 100
+# ifndef DEAD_CHECK_FREQ
+#  define DEAD_CHECK_FREQ 1000
+# endif
 
 typedef enum e_death_state
 {
@@ -71,7 +71,6 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int					id;
-	int					first_philo;// USELESS ?
 	t_fork 				*forks;
 	int					owned_forks[2];
 	int					meals_taken;
@@ -83,12 +82,9 @@ typedef struct s_philo
 int	print_err(char *msg);
 // time.c
 unsigned long long	get_time();
-unsigned long long	get_elapsed_time_us(unsigned long long ref);// UNUSED FUNCTION ?
 unsigned long long	get_elapsed_time_ms(unsigned long long ref);
 // utils.c
 int	is_even(int i);
-int	calc_last_philo(int first, int philos_nbr);
-int	is_last_philo(t_philo *philo);
 // deinit.c
 int	deinit_shared_mutexes(t_shared *shared);
 int	free_forks(t_fork *forks, int philos_nbr);
@@ -103,9 +99,6 @@ int	init_threads(
 	pthread_t *threads,
 	t_philo *philos,
 	int philos_nbr);
-// routine_fork_utils.c
-int calc_first_fork(int philo_id, int philos_nbr);
-int calc_second_fork(int philo_id, int philos_nbr);
 // routine_fork_take.c
 t_fork	*right_fork(t_philo *philo);
 t_fork	*left_fork(t_philo *philo);

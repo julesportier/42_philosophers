@@ -6,15 +6,11 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 10:40:01 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:51:32 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-#if (DEBUG && DBG_FORK)
-	#include <stdio.h>
-#endif
 
 t_fork	*right_fork(t_philo *philo)
 {
@@ -29,12 +25,7 @@ t_fork	*left_fork(t_philo *philo)
 int	try_take_fork(t_fork *fork, t_philo *philo, int side)
 {
 	if (pthread_mutex_lock(&fork->mutex))
-	{
-#if (DEBUG && DBG_FORK)
-		printf("try_take_fork mutex == %p\n", &fork->mutex);
-#endif
 		return (print_err("try_take_fork: mutex lock failed"));
-	}
 	if (fork->state == available)
 	{
 		fork->state = locked;
@@ -45,15 +36,6 @@ int	try_take_fork(t_fork *fork, t_philo *philo, int side)
 		return (print_err("try_take_fork: mutex unlock failed"));
 	return (0);
 }
-
-// int	try_take_forks(t_fork *first_fork, t_fork *second_fork)
-// {
-// 	if (try_take_fork(first_fork) == ERROR)
-// 		return (ERROR);
-// 	if (try_take_fork(second_fork) == ERROR)
-// 		return (ERROR);
-// 	return (0);
-// }
 
 static int	release_fork(t_fork *fork, int *owned)
 {

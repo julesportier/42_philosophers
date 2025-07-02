@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 14:36:04 by juportie          #+#    #+#             */
-/*   Updated: 2025/06/24 14:37:12 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:42:44 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@ unsigned long long	get_time()
 
 	gettimeofday(&tv, NULL);
 	time = tv.tv_usec + (tv.tv_sec * 1000000);
-	return (time);
-}
-
-unsigned long long	get_elapsed_time_us(unsigned long long ref)
-{
-	unsigned long long	time;
-
-	time = get_time();
-	time = time - ref;
-
-#if (DEBUG && DBG_TIME)
-	printf("elapsed time us == %llu\n", time);
-#endif
-
 	return (time);
 }
 

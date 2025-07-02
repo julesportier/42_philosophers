@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:06:58 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 14:25:18 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:40:07 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ int	init_philos(
 	while (i < shared->philos_nbr)
 	{
 		(*philos)[i].id = i;
-		(*philos)[i].first_philo = 0;
-		// (*philos)[i].state = thinking;
 		(*philos)[i].forks = forks;
 		(*philos)[i].owned_forks[0] = 0;
 		(*philos)[i].owned_forks[1] = 0;

@@ -6,26 +6,11 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 13:27:54 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:45:53 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-#if (DEBUG && DBG_ROUTINE)
-	#include <stdio.h>
-#endif
-
-// static int	eats_first(t_philo *philo)
-// {
-// 	int	philos_nbr;
-//
-// 	philos_nbr = philo->shared->philos_nbr;
-// 	if (philo->id + 1 != philos_nbr && philo->id % 2 == 0)
-// 		return (1);
-// 	else
-// 		return (0);
-// }
 
 int	set_death(t_death *death, t_philo *philo)
 {
