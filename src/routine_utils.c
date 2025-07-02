@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 09:56:00 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:27:47 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,20 @@
 
 int	set_death(t_death *death, t_philo *philo)
 {
+	int	ret;
+
+	ret = 0;
 	if (pthread_mutex_lock(&death->mutex))
-		return (print_err("death_happened: mutex lock failed"));
-	death->state = dead;
+		return (print_err("set_death: mutex lock failed"));
+	if (death->state == alive)
+	{
+		death->state = dead;
+		if (print_timestamp("died", philo) == ERROR)
+			ret = ERROR;
+	}
 	if (pthread_mutex_unlock(&death->mutex))
-		return (print_err("death_happened: mutex unlock failed"));
-	if (print_timestamp("died", philo) == ERROR)
-		return (ERROR);
-	return (0);
+		return (print_err("set_death: mutex unlock failed"));
+	return (ret);
 }
 
 int	death_happened(t_death *death)
