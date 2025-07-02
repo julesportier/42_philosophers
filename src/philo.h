@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 09:53:56 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:40:42 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ int calc_second_fork(int philo_id, int philos_nbr);
 // routine_fork_take.c
 t_fork	*right_fork(t_philo *philo);
 t_fork	*left_fork(t_philo *philo);
-int	try_take_fork(t_fork *fork, int *owned);
-// int	try_take_forks(t_fork *first_fork, t_fork *second_fork);
+int	try_take_fork(t_fork *fork, t_philo *philo, int side);
 int	release_forks(t_philo *philo);
 // routine_utils.c
 int	set_death(t_death *death, t_philo *philo);

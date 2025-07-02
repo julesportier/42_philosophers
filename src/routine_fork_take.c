@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/06/30 15:00:58 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:40:01 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_fork	*left_fork(t_philo *philo)
 	return (&philo->forks[(philo->id + 1) % philo->shared->philos_nbr]);
 }
 
-int	try_take_fork(t_fork *fork, int *owned)
+int	try_take_fork(t_fork *fork, t_philo *philo, int side)
 {
 	if (pthread_mutex_lock(&fork->mutex))
 	{
@@ -38,7 +38,8 @@ int	try_take_fork(t_fork *fork, int *owned)
 	if (fork->state == available)
 	{
 		fork->state = locked;
-		*owned = 1;
+		philo->owned_forks[side] = 1;
+		print_timestamp("has taken a fork", philo);
 	}
 	if (pthread_mutex_unlock(&fork->mutex))
 		return (print_err("try_take_fork: mutex unlock failed"));

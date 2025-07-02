@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 09:56:28 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:39:12 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ static int	start_thinking(t_philo *philo)
 		if (death_happened(&philo->shared->death))
 			return (0);
 		if (!philo->owned_forks[0])
-			if (try_take_fork(right_fork(philo), &philo->owned_forks[0]) == ERROR)
+			if (try_take_fork(right_fork(philo), philo, 0) == ERROR)
 				return (ERROR);
 		if (!philo->owned_forks[1])
-			if (try_take_fork(left_fork(philo), &philo->owned_forks[1]) == ERROR)
+			if (try_take_fork(left_fork(philo), philo, 1) == ERROR)
 				return (ERROR);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
