@@ -15,14 +15,14 @@
 
 static int	start_eating(t_philo *philo)
 {
+	philo->last_meal = get_time();
 	if (print_timestamp("is eating", philo) == ERROR)
 		return (ERROR);
-	philo->last_meal = get_time();
-	while (!death_happened(&philo->shared->death)
-		&& !reached_time(philo->last_meal, philo->shared->time_to_eat))
+	while (!death_happened(&philo->shared->death))
 	{
 		usleep(WAIT_TIME);
-			return (ERROR);
+		if (reached_time(philo->last_meal, philo->shared->time_to_eat))
+			break ;
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
 	}
@@ -36,8 +36,6 @@ static int	start_sleeping(t_philo *philo)
 	unsigned long long	start_time;
 
 	start_time = get_time();
-	if (reached_time(philo->last_meal, philo->shared->time_to_die))
-		set_death(&philo->shared->death, philo);
 	if (print_timestamp("is sleeping", philo) == ERROR)
 		return (ERROR);
 	while (!death_happened(&philo->shared->death)
@@ -56,21 +54,16 @@ static int	start_thinking(t_philo *philo)
 		set_death(&philo->shared->death, philo);
 	if (print_timestamp("is thinking", philo))
 		return (ERROR);
-	usleep(WAIT_TIME);
 	while (!philo->owned_forks[0] || !philo->owned_forks[1])
 	{
-		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
 		if (death_happened(&philo->shared->death))
 			return (0);
+		usleep(WAIT_TIME);
 		if (!philo->owned_forks[0])
 			if (try_take_fork(right_fork(philo), philo, 0) == ERROR)
 				return (ERROR);
-		if (reached_time(philo->last_meal, philo->shared->time_to_die))
-			set_death(&philo->shared->death, philo);
-		if (death_happened(&philo->shared->death))
-			return (0);
 		if (!philo->owned_forks[1])
 			if (try_take_fork(left_fork(philo), philo, 1) == ERROR)
 				return (ERROR);

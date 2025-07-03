@@ -19,7 +19,7 @@
 # define UNSET -2
 
 # ifndef WAIT_TIME
-#  define WAIT_TIME 800
+#  define WAIT_TIME 900
 # endif
 
 typedef enum e_death_state
