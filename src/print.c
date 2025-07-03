@@ -52,7 +52,7 @@ int	print_timestamp(char *str, t_philo *philo)
 void	print_death_timestamp(t_philo *philo)
 {
 	printf(
-		"%llu %d is dead\n",
+		"%llu %d died\n",
 		get_elapsed_time_ms(philo->shared->start_time),
 		philo->id + 1);
 }
