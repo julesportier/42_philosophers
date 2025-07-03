@@ -75,6 +75,8 @@ int	init_shared(t_shared *shared, int argc, char *argv[])
 	shared->philos_nbr = arg_to_int(argv[1]);
 	if (shared->philos_nbr == ERROR)
 		return (ERROR);
+	if (shared->philos_nbr > 1000)
+		return (print_err("philo: maximum nbr of philos is 1000\n"));
 	shared->time_to_die = arg_to_int(argv[2]);
 	if (shared->time_to_die == ERROR)
 		return (ERROR);
@@ -90,7 +92,6 @@ int	init_shared(t_shared *shared, int argc, char *argv[])
 		shared->meals_nbr = UNSET;
 	if (shared->meals_nbr == ERROR)
 		return (ERROR);
-	shared->start_time = 0;
 	if (init_shared_mutexes(shared) == ERROR)
 		return (ERROR);
 	return (0);
