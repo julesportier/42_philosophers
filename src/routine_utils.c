@@ -26,14 +26,14 @@ int	set_death(t_death *death, t_philo *philo)
 
 	ret = 0;
 	if (pthread_mutex_lock(&death->mutex))
-		return (print_err("set_death: mutex lock failed\n"));
+		return (print_err("set_death: mutex lock failure\n"));
 	if (death->state == alive)
 	{
 		print_death_timestamp(philo);
 		death->state = dead;
 	}
 	if (pthread_mutex_unlock(&death->mutex))
-		return (print_err("set_death: mutex unlock failed\n"));
+		return (print_err("set_death: mutex unlock failure\n"));
 	return (ret);
 }
 
@@ -43,11 +43,11 @@ int	death_happened(t_death *death)
 
 	ret = 0;
 	if (pthread_mutex_lock(&death->mutex))
-		return (print_err("death_happened: mutex lock failed\n"));
+		return (print_err("death_happened: mutex lock failure\n"));
 	if (death->state == dead)
 		ret = 1;
 	if (pthread_mutex_unlock(&death->mutex))
-		return (print_err("death_happened: mutex unlock failed\n"));
+		return (print_err("death_happened: mutex unlock failure\n"));
 	return (ret);
 }
 

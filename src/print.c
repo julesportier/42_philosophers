@@ -35,7 +35,7 @@ int	print_err(char *str)
 int	print_timestamp(char *str, t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->shared->death.mutex))
-		return (print_err("print_timestamp: mutex lock failed\n"));
+		return (print_err("print_timestamp: mutex lock failure\n"));
 	if (philo->shared->death.state == alive)
 	{
 		printf(
@@ -45,7 +45,7 @@ int	print_timestamp(char *str, t_philo *philo)
 			str);
 	}
 	if (pthread_mutex_unlock(&philo->shared->death.mutex))
-		return (print_err("print_timestamp: mutex unlock failed\n"));
+		return (print_err("print_timestamp: mutex unlock failure\n"));
 	return (0);
 }
 
