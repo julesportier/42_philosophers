@@ -57,6 +57,7 @@ static int	start_thinking(t_philo *philo)
 		set_death(&philo->shared->death, philo);
 	if (print_timestamp("is thinking", philo))
 		return (ERROR);
+	usleep(1000);
 	while (!philo->owned_forks[0] || !philo->owned_forks[1])
 	{
 		usleep(DEAD_CHECK_FREQ);
