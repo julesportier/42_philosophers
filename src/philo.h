@@ -65,7 +65,7 @@ typedef struct s_philo
 	int					owned_forks[2];
 	int					meals_taken;
 	unsigned long long	last_meal;
-	t_shared	*shared;
+	t_shared			*shared;
 }	t_philo;
 
 // error.c
@@ -87,7 +87,7 @@ int	alloc_threads(pthread_t **threads, int philos_nbr);
 int	init_threads(
 	pthread_t *threads,
 	t_philo *philos,
-	int philos_nbr);
+	t_shared *shared);
 // routine_fork_take.c
 t_fork	*right_fork(t_philo *philo);
 t_fork	*left_fork(t_philo *philo);

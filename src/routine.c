@@ -25,7 +25,7 @@ static int	start_eating(t_philo *philo)
 	{
 		if (usleep(DEAD_CHECK_FREQ) == ERROR)
 			return (ERROR);
-		if (reached_time(philo->last_meal, philo->shared->time_to_die))
+		if (reached_time(start_time, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
 	}
 	release_forks(philo);
@@ -86,6 +86,11 @@ void	*routine(void *philo_struct)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_struct;
+	if (pthread_mutex_lock(&philo->shared->block_mutex))
+		return (0);
+	if (pthread_mutex_unlock(&philo->shared->block_mutex))
+		return (0);
+	philo->last_meal = philo->shared->start_time;
 	if (!is_even(philo->id))
 	{
 		start_sleeping(philo);

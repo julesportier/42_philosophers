@@ -56,30 +56,18 @@ int	init_philos(
 	return (0);
 }
 
-static void	init_philos_last_meal(t_philo *philos)
-{
-	int	i;
-	int	philos_nbr;
-
-	i = 0;
-	philos_nbr = (*philos).shared->philos_nbr;
-	while (i < philos_nbr)
-	{
-		philos[i].last_meal = philos[i].shared->start_time;
-		++i;
-	}
-}
-
-
 int	start_simulation(t_shared *shared, t_philo *philos)
 {
 	pthread_t		*threads;
 
 	if (alloc_threads(&threads, shared->philos_nbr) == ERROR)
-		return (print_err("start_simulation: threads mem alloc failure\n"));
-	shared->start_time = get_time();
-	init_philos_last_meal(philos);
-	if (init_threads(threads, philos, shared->philos_nbr) == ERROR)
+		return (print_err("start_simulation: threads mem alloc failure"));
+	if (init_threads(
+			threads,
+			philos,
+			shared
+		) == ERROR
+	)
 	{
 		free(threads);
 		return (ERROR);

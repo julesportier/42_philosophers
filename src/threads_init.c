@@ -41,12 +41,14 @@ static int	join_threads(pthread_t *threads, int philos_nbr)
 static int	create_threads(
 	pthread_t *threads,
 	t_philo *philos,
-	int philos_nbr)
+	t_shared *shared)
 {
 	int	i;
 
+	if (pthread_mutex_lock(&shared->block_mutex))
+		return (ERROR);
 	i = 0;
-	while (i < philos_nbr)
+	while (i < shared->philos_nbr)
 	{
 		if (pthread_create(&threads[i], NULL, routine, &philos[i]))
 		{
@@ -55,18 +57,24 @@ static int	create_threads(
 		}
 		++i;
 	}
+	shared->start_time = get_time();
+	if (pthread_mutex_unlock(&shared->block_mutex))
+	{
+			// SEND DEATH TO ALREADY ALLOCATED THREADS
+		return (ERROR);
+	}
 	return (0);
 }
 
 int	init_threads(
 	pthread_t *threads,
 	t_philo *philos,
-	int philos_nbr)
+	t_shared *shared)
 {
-	if (create_threads(threads, philos, philos_nbr)
+	if (create_threads(threads, philos, shared)
 		== ERROR)
 		return (ERROR);
-	if (join_threads((pthread_t *)threads, philos_nbr)
+	if (join_threads((pthread_t *)threads, shared->philos_nbr)
 		== ERROR)
 		return (ERROR);
 	return (0);
