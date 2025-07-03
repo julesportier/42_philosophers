@@ -26,7 +26,7 @@ int	alloc_threads(pthread_t **threads, int philos_nbr)
 static int	join_threads(pthread_t *threads, t_shared *shared)
 {
 	int	i;
-	int ret;
+	int	ret;
 
 	i = 0;
 	ret = 0;
@@ -55,7 +55,7 @@ static int	create_threads(
 	t_shared *shared)
 {
 	int	i;
-	int ret;
+	int	ret;
 
 	if (pthread_mutex_lock(&shared->block_mutex))
 		return (print_err("create_threads: mutex lock failure\n"));

@@ -22,7 +22,7 @@ static int	ft_isdigit(char c)
 
 static int	overflows(int nbr_n, int nbr_n1)
 {
-	int mul;
+	int	mul;
 
 	if (nbr_n != 0)
 	{
@@ -49,7 +49,8 @@ static int	arg_to_int(char *nptr)
 					"philo: argument must contain only positive numbers\n"));
 		if (overflows(nbr, nptr[i] - '0'))
 			return (print_err(
-				"philo: argument must contain only number under 2147483647\n"));
+					"philo: "
+					"argument must contain only numbers under 2147483647\n"));
 		nbr = nbr * 10 + (nptr[i] - '0');
 		++i;
 	}

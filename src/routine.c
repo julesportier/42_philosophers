@@ -92,9 +92,7 @@ void	*routine(void *philo_struct)
 		return (0);
 	philo->last_meal = philo->shared->start_time;
 	if (!is_even(philo->id))
-	{
 		start_sleeping(philo);
-	}
 	while (1)
 	{
 		if (death_happened(&philo->shared->death))

@@ -13,7 +13,7 @@
 #include "philo.h"
 #include <sys/time.h>
 
-unsigned long long	get_time()
+unsigned long long	get_time(void)
 {
 	struct timeval		tv;
 	unsigned long long	time;

@@ -76,7 +76,7 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 
 int	main(int argc, char *argv[])
 {
-	t_shared 	shared;
+	t_shared	shared;
 	t_fork		*forks;
 	t_philo		*philos;
 
@@ -89,7 +89,7 @@ int	main(int argc, char *argv[])
 	if (init_forks(&forks, shared.philos_nbr) == ERROR)
 	{
 		deinit_shared_mutexes(&shared);
-	 	return (ERROR);
+		return (ERROR);
 	}
 	if (init_philos(&philos, (t_shared *)&shared, forks) == ERROR)
 	{
