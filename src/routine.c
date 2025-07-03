@@ -21,7 +21,7 @@ static int	start_eating(t_philo *philo)
 	while (!death_happened(&philo->shared->death)
 		&& !reached_time(philo->last_meal, philo->shared->time_to_eat))
 	{
-		if (usleep(WAIT_TIME) == ERROR)
+		usleep(WAIT_TIME);
 			return (ERROR);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
@@ -43,8 +43,7 @@ static int	start_sleeping(t_philo *philo)
 	while (!death_happened(&philo->shared->death)
 		&& !reached_time(start_time, philo->shared->time_to_sleep))
 	{
-		if (usleep(WAIT_TIME) == ERROR)
-			return (ERROR);
+		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
 	}
