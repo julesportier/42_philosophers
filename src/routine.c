@@ -15,22 +15,19 @@
 
 static int	start_eating(t_philo *philo)
 {
-	unsigned long long	start_time;
-
-	start_time = get_time();
 	if (print_timestamp("is eating", philo) == ERROR)
 		return (ERROR);
+	philo->last_meal = get_time();
 	while (!death_happened(&philo->shared->death)
-		&& !reached_time(start_time, philo->shared->time_to_eat))
+		&& !reached_time(philo->last_meal, philo->shared->time_to_eat))
 	{
 		if (usleep(DEAD_CHECK_FREQ) == ERROR)
 			return (ERROR);
-		if (reached_time(start_time, philo->shared->time_to_die))
+		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
 	}
 	release_forks(philo);
 	philo->meals_taken += 1;
-	philo->last_meal = get_time();
 	return (0);
 }
 
