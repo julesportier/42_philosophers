@@ -15,14 +15,9 @@
 
 int	deinit_shared_mutexes(t_shared *shared)
 {
-	int	ret;
-
-	ret = 0;
 	if (pthread_mutex_destroy(&shared->death.mutex))
-		ret = ERROR;
-	if (pthread_mutex_destroy(&shared->block_mutex))
-		ret = ERROR;
-	return (ret);
+		return (ERROR);
+	return (0);
 }
 
 int	free_forks(t_fork *forks, int philos_nbr)

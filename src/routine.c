@@ -84,10 +84,6 @@ void	*routine(void *philo_struct)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_struct;
-	if (pthread_mutex_lock(&philo->shared->block_mutex))
-		return (0);
-	if (pthread_mutex_unlock(&philo->shared->block_mutex))
-		return (0);
 	if (death_happened(&philo->shared->death))
 		return (0);
 	philo->last_meal = philo->shared->start_time;

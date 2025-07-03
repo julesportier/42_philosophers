@@ -57,7 +57,7 @@ static int	create_threads(
 	int	i;
 	int	ret;
 
-	if (pthread_mutex_lock(&shared->block_mutex))
+	if (pthread_mutex_lock(&shared->death.mutex))
 		return (print_err("create_threads: mutex lock failure\n"));
 	ret = 0;
 	i = 0;
@@ -73,7 +73,7 @@ static int	create_threads(
 		++i;
 	}
 	shared->start_time = get_time();
-	if (pthread_mutex_unlock(&shared->block_mutex))
+	if (pthread_mutex_unlock(&shared->death.mutex))
 	{
 		shared->death.state = dead;
 		return (print_err("create_threads: mutex unlock failure\n"));

@@ -43,7 +43,6 @@ typedef struct s_shared
 	int					meals_nbr;
 	unsigned long long	start_time;
 	t_death				death;
-	pthread_mutex_t		block_mutex;
 }	t_shared;
 
 typedef enum e_fork_state

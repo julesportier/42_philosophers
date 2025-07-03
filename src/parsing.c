@@ -62,11 +62,6 @@ static int	init_shared_mutexes(t_shared *shared)
 	shared->death.state = alive;
 	if (pthread_mutex_init(&shared->death.mutex, NULL))
 		return (ERROR);
-	if (pthread_mutex_init(&shared->block_mutex, NULL))
-	{
-		pthread_mutex_destroy(&shared->death.mutex);
-		return (ERROR);
-	}
 	return (0);
 }
 
