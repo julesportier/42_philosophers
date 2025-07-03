@@ -12,30 +12,41 @@
 
 #include "philo.h"
 #include <stdlib.h>
+#include <string.h>
 
 int	alloc_threads(pthread_t **threads, int philos_nbr)
 {
 	*threads = malloc(sizeof(pthread_t) * philos_nbr);
 	if (!*threads)
 		return (print_err("alloc_threads: mem alloc failure\n"));
+	memset(*threads, 0, sizeof(pthread_t) * philos_nbr);
 	return (0);
 }
 
-static int	join_threads(pthread_t *threads, int philos_nbr)
+static int	join_threads(pthread_t *threads, t_shared *shared)
 {
 	int	i;
+	int ret;
 
 	i = 0;
-	while (i < philos_nbr)
+	ret = 0;
+	while (i < shared->philos_nbr)
 	{
 		if (pthread_join(threads[i], NULL))
 		{
-			// SEND DEATH TO ALL THREADS
-			return (ERROR);
+			if (pthread_mutex_lock(&shared->death.mutex))
+				ret = print_err("join_threads: mutex lock failure\n");
+			if (shared->death.state != dead)
+			{
+				ret = print_err("join_threads: join thread failure\n");
+				shared->death.state = dead;
+			}
+			if (pthread_mutex_unlock(&shared->death.mutex))
+				ret = print_err("join_threads: mutex unlock failure\n");
 		}
 		++i;
 	}
-	return (0);
+	return (ret);
 }
 
 static int	create_threads(
@@ -44,26 +55,30 @@ static int	create_threads(
 	t_shared *shared)
 {
 	int	i;
+	int ret;
 
 	if (pthread_mutex_lock(&shared->block_mutex))
-		return (ERROR);
+		return (print_err("create_threads: mutex lock failure\n"));
+	ret = 0;
 	i = 0;
 	while (i < shared->philos_nbr)
 	{
 		if (pthread_create(&threads[i], NULL, routine, &philos[i]))
 		{
-			// SEND DEATH TO ALREADY ALLOCATED THREADS
-			return (ERROR);
+			shared->death.state = dead;
+			print_err("create_threads: mutex lock failure\n");
+			ret = ERROR;
+			break ;
 		}
 		++i;
 	}
 	shared->start_time = get_time();
 	if (pthread_mutex_unlock(&shared->block_mutex))
 	{
-			// SEND DEATH TO ALREADY ALLOCATED THREADS
-		return (ERROR);
+		shared->death.state = dead;
+		return (print_err("create_threads: mutex unlock failure\n"));
 	}
-	return (0);
+	return (ret);
 }
 
 int	init_threads(
@@ -71,11 +86,12 @@ int	init_threads(
 	t_philo *philos,
 	t_shared *shared)
 {
-	if (create_threads(threads, philos, shared)
-		== ERROR)
-		return (ERROR);
-	if (join_threads((pthread_t *)threads, shared->philos_nbr)
-		== ERROR)
-		return (ERROR);
-	return (0);
+	int	ret;
+
+	ret = 0;
+	if (create_threads(threads, philos, shared) == ERROR)
+		ret = ERROR;
+	if (join_threads(threads, shared) == ERROR)
+		ret = ERROR;
+	return (ret);
 }

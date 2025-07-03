@@ -88,6 +88,8 @@ void	*routine(void *philo_struct)
 		return (0);
 	if (pthread_mutex_unlock(&philo->shared->block_mutex))
 		return (0);
+	if (death_happened(&philo->shared->death))
+		return (0);
 	philo->last_meal = philo->shared->start_time;
 	if (!is_even(philo->id))
 	{
