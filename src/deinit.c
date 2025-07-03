@@ -50,8 +50,10 @@ int	free_all(t_shared *shared, t_fork *forks, t_philo *philos)
 	if (shared)
 		ret = deinit_shared_mutexes(shared);
 	if (shared && forks)
+	{
 		if (free_forks(forks, shared->philos_nbr) == ERROR)
 			ret = ERROR;
+	}
 	if (philos)
 		free(philos);
 	return (ret);

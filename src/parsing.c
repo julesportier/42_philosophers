@@ -46,9 +46,10 @@ static int	arg_to_int(char *nptr)
 	{
 		if (!ft_isdigit(nptr[i]))
 			return (print_err(
-					"argument must contain only positive numbers\n"));
+					"philo: argument must contain only positive numbers\n"));
 		if (overflows(nbr, nptr[i] - '0'))
-			return (print_err("argument number is too big\n"));
+			return (print_err(
+				"philo: argument must contain only number under 2147483647\n"));
 		nbr = nbr * 10 + (nptr[i] - '0');
 		++i;
 	}
@@ -57,9 +58,9 @@ static int	arg_to_int(char *nptr)
 
 static int	init_shared_mutexes(t_shared *shared)
 {
+	shared->death.state = alive;
 	if (pthread_mutex_init(&shared->death.mutex, NULL))
 		return (ERROR);
-	shared->death.state = alive;
 	if (pthread_mutex_init(&shared->block_mutex, NULL))
 	{
 		pthread_mutex_destroy(&shared->death.mutex);

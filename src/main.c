@@ -64,7 +64,7 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 	pthread_t		*threads;
 
 	if (alloc_threads(&threads, shared->philos_nbr) == ERROR)
-		return (print_err("start_simulation: threads mem alloc failure"));
+		return (ERROR);
 	if (init_threads(threads, philos, shared) == ERROR)
 	{
 		free(threads);
@@ -81,7 +81,7 @@ int	main(int argc, char *argv[])
 	t_philo		*philos;
 
 	if (argc < 5 || argc > 6)
-		return (print_err("invalid number of arguments\n"));
+		return (print_err("philo: invalid number of arguments\n"));
 	if (init_shared(&shared, argc, argv) == ERROR)
 		return (ERROR);
 	if (shared.philos_nbr == 0 || shared.meals_nbr == 0)
