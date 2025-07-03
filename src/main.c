@@ -62,12 +62,7 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 
 	if (alloc_threads(&threads, shared->philos_nbr) == ERROR)
 		return (print_err("start_simulation: threads mem alloc failure"));
-	if (init_threads(
-			threads,
-			philos,
-			shared
-		) == ERROR
-	)
+	if (init_threads(threads, philos, shared) == ERROR)
 	{
 		free(threads);
 		return (ERROR);
