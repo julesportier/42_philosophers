@@ -18,8 +18,8 @@
 # define ERROR -1
 # define UNSET -2
 
-# ifndef DEAD_CHECK_FREQ
-#  define DEAD_CHECK_FREQ 1000
+# ifndef WAIT_TIME
+#  define WAIT_TIME 800
 # endif
 
 typedef enum e_death_state

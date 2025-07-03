@@ -21,7 +21,7 @@ static int	start_eating(t_philo *philo)
 	while (!death_happened(&philo->shared->death)
 		&& !reached_time(philo->last_meal, philo->shared->time_to_eat))
 	{
-		if (usleep(DEAD_CHECK_FREQ) == ERROR)
+		if (usleep(WAIT_TIME) == ERROR)
 			return (ERROR);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
@@ -43,7 +43,7 @@ static int	start_sleeping(t_philo *philo)
 	while (!death_happened(&philo->shared->death)
 		&& !reached_time(start_time, philo->shared->time_to_sleep))
 	{
-		if (usleep(DEAD_CHECK_FREQ) == ERROR)
+		if (usleep(WAIT_TIME) == ERROR)
 			return (ERROR);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
@@ -57,10 +57,10 @@ static int	start_thinking(t_philo *philo)
 		set_death(&philo->shared->death, philo);
 	if (print_timestamp("is thinking", philo))
 		return (ERROR);
-	usleep(1000);
+	usleep(WAIT_TIME);
 	while (!philo->owned_forks[0] || !philo->owned_forks[1])
 	{
-		usleep(DEAD_CHECK_FREQ);
+		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 			set_death(&philo->shared->death, philo);
 		if (death_happened(&philo->shared->death))
