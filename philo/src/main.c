@@ -26,7 +26,7 @@ int	init_forks(t_fork **forks, int philos_nbr)
 		(*forks)[i].state = available;
 		if (pthread_mutex_init(&(*forks)[i].mutex, NULL))
 		{
-			free(*forks);
+			free_forks(*forks, i);
 			return (print_err("init_forks: mutex init failure\n"));
 		}
 		++i;
