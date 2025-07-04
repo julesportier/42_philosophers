@@ -66,7 +66,7 @@ static int	create_threads(
 		if (pthread_create(&threads[i], NULL, routine, &philos[i]))
 		{
 			shared->death.state = dead;
-			print_err("create_threads: mutex lock failure\n");
+			print_err("create_threads: thread creation failure\n");
 			ret = ERROR;
 			break ;
 		}
