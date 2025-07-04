@@ -18,7 +18,6 @@ SRC := main.c \
 	   routine_fork_take.c \
 	   routine_utils.c \
 	   routine.c
-# thread_test.c
 
 BUILD_DIR := build
 OBJ := $(addprefix $(BUILD_DIR)/, $(SRC:.c=.o))
