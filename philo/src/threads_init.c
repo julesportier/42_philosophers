@@ -34,15 +34,13 @@ static int	join_threads(pthread_t *threads, t_shared *shared)
 	{
 		if (pthread_join(threads[i], NULL))
 		{
-			if (pthread_mutex_lock(&shared->death.mutex))
-				ret = print_err("join_threads: mutex lock failure\n");
+			pthread_mutex_lock(&shared->death.mutex);
 			if (shared->death.state != dead)
 			{
 				ret = print_err("join_threads: join thread failure\n");
 				shared->death.state = dead;
 			}
-			if (pthread_mutex_unlock(&shared->death.mutex))
-				ret = print_err("join_threads: mutex unlock failure\n");
+			pthread_mutex_unlock(&shared->death.mutex);
 		}
 		++i;
 	}
@@ -57,8 +55,7 @@ static int	create_threads(
 	int	i;
 	int	ret;
 
-	if (pthread_mutex_lock(&shared->death.mutex))
-		return (print_err("create_threads: mutex lock failure\n"));
+	pthread_mutex_lock(&shared->death.mutex);
 	ret = 0;
 	i = 0;
 	while (i < shared->philos_nbr)
@@ -73,11 +70,7 @@ static int	create_threads(
 		++i;
 	}
 	shared->start_time = get_time();
-	if (pthread_mutex_unlock(&shared->death.mutex))
-	{
-		shared->death.state = dead;
-		return (print_err("create_threads: mutex unlock failure\n"));
-	}
+	pthread_mutex_unlock(&shared->death.mutex);
 	return (ret);
 }
 

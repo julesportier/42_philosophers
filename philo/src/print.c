@@ -32,10 +32,9 @@ int	print_err(char *str)
 	return (ERROR);
 }
 
-int	print_timestamp(char *str, t_philo *philo)
+void	print_timestamp(char *str, t_philo *philo)
 {
-	if (pthread_mutex_lock(&philo->shared->death.mutex))
-		return (print_err("print_timestamp: mutex lock failure\n"));
+	pthread_mutex_lock(&philo->shared->death.mutex);
 	if (philo->shared->death.state == alive)
 	{
 		printf(
@@ -44,9 +43,7 @@ int	print_timestamp(char *str, t_philo *philo)
 			philo->id + 1,
 			str);
 	}
-	if (pthread_mutex_unlock(&philo->shared->death.mutex))
-		return (print_err("print_timestamp: mutex unlock failure\n"));
-	return (0);
+	pthread_mutex_unlock(&philo->shared->death.mutex);
 }
 
 void	print_death_timestamp(t_philo *philo)

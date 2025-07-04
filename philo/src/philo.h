@@ -80,7 +80,7 @@ int					free_all(
 // parsing.c
 int					init_shared(t_shared *shared, int argc, char *argv[]);
 // print.c
-int					print_timestamp(char *str, t_philo *philo);
+void				print_timestamp(char *str, t_philo *philo);
 void				print_death_timestamp(t_philo *philo);
 // threads_init.c
 int					alloc_threads(pthread_t **threads, int philos_nbr);
@@ -91,11 +91,11 @@ int					init_threads(
 // routine_fork_take.c
 t_fork				*right_fork(t_philo *philo);
 t_fork				*left_fork(t_philo *philo);
-int					try_take_fork(t_fork *fork, t_philo *philo, int side);
-int					release_forks(t_philo *philo);
+void				try_take_fork(t_fork *fork, t_philo *philo, int side);
+void				release_forks(t_philo *philo);
 // routine_utils.c
 int					is_even(int i);
-int					set_death(t_death *death, t_philo *philo);
+void				set_death(t_death *death, t_philo *philo);
 int					death_happened(t_death *death);
 int					reached_time(unsigned long long start_time, int time);
 int					eaten_enough_meals(t_philo *philo);

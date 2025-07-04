@@ -20,21 +20,15 @@ int	is_even(int i)
 		return (0);
 }
 
-int	set_death(t_death *death, t_philo *philo)
+void	set_death(t_death *death, t_philo *philo)
 {
-	int	ret;
-
-	ret = 0;
-	if (pthread_mutex_lock(&death->mutex))
-		return (print_err("set_death: mutex lock failure\n"));
+	pthread_mutex_lock(&death->mutex);
 	if (death->state == alive)
 	{
 		print_death_timestamp(philo);
 		death->state = dead;
 	}
-	if (pthread_mutex_unlock(&death->mutex))
-		return (print_err("set_death: mutex unlock failure\n"));
-	return (ret);
+	pthread_mutex_unlock(&death->mutex);
 }
 
 int	death_happened(t_death *death)
@@ -42,12 +36,10 @@ int	death_happened(t_death *death)
 	int	ret;
 
 	ret = 0;
-	if (pthread_mutex_lock(&death->mutex))
-		return (print_err("death_happened: mutex lock failure\n"));
+	pthread_mutex_lock(&death->mutex);
 	if (death->state == dead)
 		ret = 1;
-	if (pthread_mutex_unlock(&death->mutex))
-		return (print_err("death_happened: mutex unlock failure\n"));
+	pthread_mutex_unlock(&death->mutex);
 	return (ret);
 }
 
