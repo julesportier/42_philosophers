@@ -41,7 +41,10 @@ static int	start_sleeping(t_philo *philo)
 	{
 		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
+		{
 			set_death(&philo->shared->death, philo);
+			return (DEAD);
+		}
 	}
 	return (0);
 }
@@ -49,23 +52,28 @@ static int	start_sleeping(t_philo *philo)
 static int	start_thinking(t_philo *philo)
 {
 	if (reached_time(philo->last_meal, philo->shared->time_to_die))
+	{
 		set_death(&philo->shared->death, philo);
+		return (DEAD);
+	}
 	print_timestamp("is thinking", philo);
-	while (!philo->owned_forks[0] || !philo->owned_forks[1])
+	while (!death_happened(&philo->shared->death))
 	{
 		usleep(WAIT_TIME);
+		if (reached_time(philo->last_meal, philo->shared->time_to_die))
+		{
+			set_death(&philo->shared->death, philo);
+			release_forks(philo);
+			return (DEAD);
+		}
 		if (!philo->owned_forks[0])
 			try_take_fork(right_fork(philo), philo, 0);
-		if (reached_time(philo->last_meal, philo->shared->time_to_die))
-			set_death(&philo->shared->death, philo);
-		if (death_happened(&philo->shared->death))
-			return (0);
+		if (philo->owned_forks[0] && philo->owned_forks[1])
+			break ;
 		if (!philo->owned_forks[1])
 			try_take_fork(left_fork(philo), philo, 1);
-		if (reached_time(philo->last_meal, philo->shared->time_to_die))
-			set_death(&philo->shared->death, philo);
-		if (death_happened(&philo->shared->death))
-			return (0);
+		if (philo->owned_forks[0] && philo->owned_forks[1])
+			break ;
 	}
 	return (0);
 }
@@ -79,18 +87,19 @@ void	*routine(void *philo_struct)
 		return (0);
 	philo->last_meal = philo->shared->start_time;
 	if (!is_even(philo->id))
-		start_sleeping(philo);
+	{
+		if (start_sleeping(philo) == DEAD)
+			return (0);
+	}
 	while (1)
 	{
-		if (death_happened(&philo->shared->death))
-			return (0);
-		start_thinking(philo);
-		if (death_happened(&philo->shared->death))
+		if (start_thinking(philo) == DEAD)
 			return (0);
 		start_eating(philo);
 		if (death_happened(&philo->shared->death) || eaten_enough_meals(philo))
 			return (0);
-		start_sleeping(philo);
+		if (start_sleeping(philo) == DEAD)
+			return (0);
 	}
 	return (0);
 }

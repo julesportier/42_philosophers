@@ -44,6 +44,8 @@ static void	release_fork(t_fork *fork, int *owned)
 
 void	release_forks(t_philo *philo)
 {
-	release_fork(right_fork(philo), &philo->owned_forks[0]);
-	release_fork(left_fork(philo), &philo->owned_forks[1]);
+	if (philo->owned_forks[0])
+		release_fork(right_fork(philo), &philo->owned_forks[0]);
+	if (philo->owned_forks[1])
+		release_fork(left_fork(philo), &philo->owned_forks[1]);
 }
