@@ -37,11 +37,15 @@ int	free_forks(t_fork *forks, int philos_nbr)
 	return (ret);
 }
 
-int	free_all(t_shared *shared, t_fork *forks, t_philo *philos)
+int	free_all(
+	t_shared *shared,
+	t_fork *forks,
+	t_philo *philos,
+	int error)
 {
 	int	ret;
 
-	ret = 0;
+	ret = error;
 	if (shared)
 		ret = deinit_shared_mutexes(shared);
 	if (shared && forks)

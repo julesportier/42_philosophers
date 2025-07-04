@@ -97,6 +97,7 @@ int	main(int argc, char *argv[])
 		free_forks(forks, shared.philos_nbr);
 		return (ERROR);
 	}
-	start_simulation(&shared, philos);
-	return (free_all(&shared, forks, philos));
+	if (start_simulation(&shared, philos) == ERROR)
+		return (free_all(&shared, forks, philos, ERROR));
+	return (free_all(&shared, forks, philos, 0));
 }
