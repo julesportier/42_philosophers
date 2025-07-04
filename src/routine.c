@@ -56,17 +56,21 @@ static int	start_thinking(t_philo *philo)
 		return (ERROR);
 	while (!philo->owned_forks[0] || !philo->owned_forks[1])
 	{
-		if (reached_time(philo->last_meal, philo->shared->time_to_die))
-			set_death(&philo->shared->death, philo);
-		if (death_happened(&philo->shared->death))
-			return (0);
 		usleep(WAIT_TIME);
 		if (!philo->owned_forks[0])
 			if (try_take_fork(right_fork(philo), philo, 0) == ERROR)
 				return (ERROR);
+		if (reached_time(philo->last_meal, philo->shared->time_to_die))
+			set_death(&philo->shared->death, philo);
+		if (death_happened(&philo->shared->death))
+			return (0);
 		if (!philo->owned_forks[1])
 			if (try_take_fork(left_fork(philo), philo, 1) == ERROR)
 				return (ERROR);
+		if (reached_time(philo->last_meal, philo->shared->time_to_die))
+			set_death(&philo->shared->death, philo);
+		if (death_happened(&philo->shared->death))
+			return (0);
 	}
 	return (0);
 }
