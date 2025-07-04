@@ -17,7 +17,7 @@
 
 # define ERROR -1
 # define UNSET -2
-# define WAIT_TIME 900
+# define WAIT_TIME 500
 
 typedef enum e_death_state
 {
