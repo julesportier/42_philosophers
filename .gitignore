@@ -1,11 +1,11 @@
 # compilation output
-*.o
-*.out
-*.gch
-*.a
-build/
+philo/*.o
+philo/*.out
+philo/*.gch
+philo/*.a
+philo/build/
 # project specific
-philo
+philo/philo
 # bear output
-compile_commands.json
-.cache/
+philo/compile_commands.json
+philo/.cache/
