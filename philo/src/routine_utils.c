@@ -51,13 +51,15 @@ int	reached_time(unsigned long long start_time, int time)
 		return (0);
 }
 
-int	eaten_enough_meals(t_philo *philo)
+void	check_meals_nbr(t_philo *philo)
 {
 	if (philo->shared->meals_nbr != UNSET
 		&& philo->meals_taken >= philo->shared->meals_nbr)
 	{
-		return (1);
+		pthread_mutex_lock(&philo->shared->sim.mutex);
+		++philo->shared->sim.philos_done;
+		if (philo->shared->sim.philos_done == philo->shared->philos_nbr)
+			philo->shared->sim.state = stop;
+		pthread_mutex_unlock(&philo->shared->sim.mutex);
 	}
-	else
-		return (0);
 }

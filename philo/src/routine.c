@@ -27,6 +27,9 @@ static int	start_eating(t_philo *philo)
 	}
 	release_forks(philo);
 	philo->meals_taken += 1;
+	check_meals_nbr(philo);
+	if (is_end_of_simulation(&philo->shared->sim))
+		return (SIM_END);
 	return (0);
 }
 
@@ -43,7 +46,7 @@ static int	start_sleeping(t_philo *philo)
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 		{
 			set_simulation_end(&philo->shared->sim, philo);
-			return (DEAD);
+			return (SIM_END);
 		}
 	}
 	return (0);
@@ -54,7 +57,7 @@ static int	start_thinking(t_philo *philo)
 	if (reached_time(philo->last_meal, philo->shared->time_to_die))
 	{
 		set_simulation_end(&philo->shared->sim, philo);
-		return (DEAD);
+		return (SIM_END);
 	}
 	print_timestamp("is thinking", philo);
 	while (!is_end_of_simulation(&philo->shared->sim))
@@ -64,7 +67,7 @@ static int	start_thinking(t_philo *philo)
 		{
 			set_simulation_end(&philo->shared->sim, philo);
 			release_forks(philo);
-			return (DEAD);
+			return (SIM_END);
 		}
 		if (!philo->owned_forks[0])
 			try_take_fork(right_fork(philo), philo, 0);
@@ -88,18 +91,16 @@ void	*routine(void *philo_struct)
 	philo->last_meal = philo->shared->start_time;
 	if (!is_even(philo->id))
 	{
-		if (start_sleeping(philo) == DEAD)
+		if (start_sleeping(philo) == SIM_END)
 			return (0);
 	}
 	while (1)
 	{
-		if (start_thinking(philo) == DEAD)
+		if (start_thinking(philo) == SIM_END)
 			return (0);
-		start_eating(philo);
-		if (is_end_of_simulation(&philo->shared->sim)
-			|| eaten_enough_meals(philo))
+		if (start_eating(philo) == SIM_END)
 			return (0);
-		if (start_sleeping(philo) == DEAD)
+		if (start_sleeping(philo) == SIM_END)
 			return (0);
 	}
 	return (0);

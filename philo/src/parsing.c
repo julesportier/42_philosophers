@@ -60,6 +60,7 @@ static int	arg_to_int(char *nptr)
 static int	init_shared_mutexes(t_shared *shared)
 {
 	shared->sim.state = running;
+	shared->sim.philos_done = 0;
 	if (pthread_mutex_init(&shared->sim.mutex, NULL))
 		return (print_err("init_shared_mutexes: mutex init failure\n"));
 	return (0);

@@ -17,7 +17,7 @@
 
 # define ERROR -1
 # define UNSET -2
-# define DEAD 1
+# define SIM_END 1
 # define WAIT_TIME 500
 
 typedef enum e_sim_state
@@ -100,7 +100,7 @@ int					is_even(int i);
 void				set_simulation_end(t_sim *sim_state, t_philo *philo);
 int					is_end_of_simulation(t_sim *sim_state);
 int					reached_time(unsigned long long start_time, int time);
-int					eaten_enough_meals(t_philo *philo);
+void				check_meals_nbr(t_philo *philo);
 // routine.c
 void				*routine(void *philo_struct);
 
