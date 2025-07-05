@@ -20,26 +20,26 @@ int	is_even(int i)
 		return (0);
 }
 
-void	set_death(t_death *death, t_philo *philo)
+void	set_simulation_end(t_sim *sim, t_philo *philo)
 {
-	pthread_mutex_lock(&death->mutex);
-	if (death->state == alive)
+	pthread_mutex_lock(&sim->mutex);
+	if (sim->state == running)
 	{
 		print_death_timestamp(philo);
-		death->state = dead;
+		sim->state = stop;
 	}
-	pthread_mutex_unlock(&death->mutex);
+	pthread_mutex_unlock(&sim->mutex);
 }
 
-int	death_happened(t_death *death)
+int	is_end_of_simulation(t_sim *sim)
 {
 	int	ret;
 
 	ret = 0;
-	pthread_mutex_lock(&death->mutex);
-	if (death->state == dead)
+	pthread_mutex_lock(&sim->mutex);
+	if (sim->state == stop)
 		ret = 1;
-	pthread_mutex_unlock(&death->mutex);
+	pthread_mutex_unlock(&sim->mutex);
 	return (ret);
 }
 

@@ -34,8 +34,8 @@ int	print_err(char *str)
 
 void	print_timestamp(char *str, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->shared->death.mutex);
-	if (philo->shared->death.state == alive)
+	pthread_mutex_lock(&philo->shared->sim.mutex);
+	if (philo->shared->sim.state == running)
 	{
 		printf(
 			"%llu %d %s\n",
@@ -43,7 +43,7 @@ void	print_timestamp(char *str, t_philo *philo)
 			philo->id + 1,
 			str);
 	}
-	pthread_mutex_unlock(&philo->shared->death.mutex);
+	pthread_mutex_unlock(&philo->shared->sim.mutex);
 }
 
 void	print_death_timestamp(t_philo *philo)

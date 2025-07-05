@@ -20,17 +20,18 @@
 # define DEAD 1
 # define WAIT_TIME 500
 
-typedef enum e_death_state
+typedef enum e_sim_state
 {
-	alive,
-	dead
-}	t_death_state;
+	running,
+	stop
+}	t_sim_state;
 
-typedef struct s_death
+typedef struct s_sim
 {
 	pthread_mutex_t	mutex;
-	t_death_state	state;
-}	t_death;
+	t_sim_state		state;
+	int				philos_done;
+}	t_sim;
 
 typedef struct s_shared
 {
@@ -40,7 +41,7 @@ typedef struct s_shared
 	int					time_to_sleep;
 	int					meals_nbr;
 	unsigned long long	start_time;
-	t_death				death;
+	t_sim				sim;
 }	t_shared;
 
 typedef enum e_fork_state
@@ -96,8 +97,8 @@ void				try_take_fork(t_fork *fork, t_philo *philo, int side);
 void				release_forks(t_philo *philo);
 // routine_utils.c
 int					is_even(int i);
-void				set_death(t_death *death, t_philo *philo);
-int					death_happened(t_death *death);
+void				set_simulation_end(t_sim *sim_state, t_philo *philo);
+int					is_end_of_simulation(t_sim *sim_state);
 int					reached_time(unsigned long long start_time, int time);
 int					eaten_enough_meals(t_philo *philo);
 // routine.c

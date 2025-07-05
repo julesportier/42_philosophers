@@ -17,13 +17,13 @@ static int	start_eating(t_philo *philo)
 {
 	philo->last_meal = get_time();
 	print_timestamp("is eating", philo);
-	while (!death_happened(&philo->shared->death))
+	while (!is_end_of_simulation(&philo->shared->sim))
 	{
 		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_eat))
 			break ;
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
-			set_death(&philo->shared->death, philo);
+			set_simulation_end(&philo->shared->sim, philo);
 	}
 	release_forks(philo);
 	philo->meals_taken += 1;
@@ -36,13 +36,13 @@ static int	start_sleeping(t_philo *philo)
 
 	start_time = get_time();
 	print_timestamp("is sleeping", philo);
-	while (!death_happened(&philo->shared->death)
+	while (!is_end_of_simulation(&philo->shared->sim)
 		&& !reached_time(start_time, philo->shared->time_to_sleep))
 	{
 		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 		{
-			set_death(&philo->shared->death, philo);
+			set_simulation_end(&philo->shared->sim, philo);
 			return (DEAD);
 		}
 	}
@@ -53,16 +53,16 @@ static int	start_thinking(t_philo *philo)
 {
 	if (reached_time(philo->last_meal, philo->shared->time_to_die))
 	{
-		set_death(&philo->shared->death, philo);
+		set_simulation_end(&philo->shared->sim, philo);
 		return (DEAD);
 	}
 	print_timestamp("is thinking", philo);
-	while (!death_happened(&philo->shared->death))
+	while (!is_end_of_simulation(&philo->shared->sim))
 	{
 		usleep(WAIT_TIME);
 		if (reached_time(philo->last_meal, philo->shared->time_to_die))
 		{
-			set_death(&philo->shared->death, philo);
+			set_simulation_end(&philo->shared->sim, philo);
 			release_forks(philo);
 			return (DEAD);
 		}
@@ -83,7 +83,7 @@ void	*routine(void *philo_struct)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_struct;
-	if (death_happened(&philo->shared->death))
+	if (is_end_of_simulation(&philo->shared->sim))
 		return (0);
 	philo->last_meal = philo->shared->start_time;
 	if (!is_even(philo->id))
@@ -96,7 +96,8 @@ void	*routine(void *philo_struct)
 		if (start_thinking(philo) == DEAD)
 			return (0);
 		start_eating(philo);
-		if (death_happened(&philo->shared->death) || eaten_enough_meals(philo))
+		if (is_end_of_simulation(&philo->shared->sim)
+			|| eaten_enough_meals(philo))
 			return (0);
 		if (start_sleeping(philo) == DEAD)
 			return (0);

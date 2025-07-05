@@ -15,7 +15,7 @@
 
 int	deinit_shared_mutexes(t_shared *shared)
 {
-	if (pthread_mutex_destroy(&shared->death.mutex))
+	if (pthread_mutex_destroy(&shared->sim.mutex))
 		return (ERROR);
 	return (0);
 }
