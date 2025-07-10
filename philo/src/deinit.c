@@ -13,9 +13,9 @@
 #include <stdlib.h>
 #include "philo.h"
 
-int	deinit_shared_mutexes(t_shared *shared)
+int	deinit_sim_mutex(t_parameters *parameters)
 {
-	if (pthread_mutex_destroy(&shared->sim.mutex))
+	if (pthread_mutex_destroy(&parameters->sim.mutex))
 		return (ERROR);
 	return (0);
 }
@@ -37,8 +37,25 @@ int	free_forks(t_fork *forks, int philos_nbr)
 	return (ret);
 }
 
+int	free_philos(t_philo *philos, int philos_nbr)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = 0;
+	while (i < philos_nbr)
+	{
+		if (pthread_mutex_destroy(&philos[i].meals.mutex))
+			ret = ERROR;
+		++i;
+	}
+	free(philos);
+	return (ret);
+}
+
 int	free_all(
-	t_shared *shared,
+	t_parameters *parameters,
 	t_fork *forks,
 	t_philo *philos,
 	int error)
@@ -46,14 +63,17 @@ int	free_all(
 	int	ret;
 
 	ret = error;
-	if (shared)
-		ret = deinit_shared_mutexes(shared);
-	if (shared && forks)
+	if (parameters)
+		ret = deinit_sim_mutex(parameters);
+	if (parameters && forks)
 	{
-		if (free_forks(forks, shared->philos_nbr) == ERROR)
+		if (free_forks(forks, parameters->philos_nbr) == ERROR)
 			ret = ERROR;
 	}
 	if (philos)
-		free(philos);
+	{
+		if (free_philos(philos, parameters->philos_nbr) == ERROR)
+			ret = ERROR;
+	}
 	return (ret);
 }

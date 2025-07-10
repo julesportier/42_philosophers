@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 13:28:59 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/09 10:56:56 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,27 @@ int	print_err(char *str)
 
 void	print_timestamp(char *str, t_philo *philo)
 {
-	pthread_mutex_lock(&philo->shared->sim.mutex);
-	if (philo->shared->sim.state == running)
+	if (philo->parameters->sim.state == running)
 	{
 		printf(
 			"%llu %d %s\n",
-			get_elapsed_time_ms(philo->shared->start_time),
+			get_elapsed_time_ms(philo->parameters->start_time),
 			philo->id + 1,
 			str);
 	}
-	pthread_mutex_unlock(&philo->shared->sim.mutex);
+}
+
+void	print_timestamp_locked(char *str, t_philo *philo)
+{
+	pthread_mutex_lock(&philo->parameters->sim.mutex);
+	print_timestamp(str, philo);
+	pthread_mutex_unlock(&philo->parameters->sim.mutex);
 }
 
 void	print_death_timestamp(t_philo *philo)
 {
 	printf(
 		"%llu %d died\n",
-		get_elapsed_time_ms(philo->shared->start_time),
+		get_elapsed_time_ms(philo->parameters->start_time),
 		philo->id + 1);
 }

@@ -57,38 +57,40 @@ static int	arg_to_int(char *nptr)
 	return (nbr);
 }
 
-static int	init_shared_mutexes(t_shared *shared)
+static int	init_sim_mutex(t_parameters *parameters)
 {
-	shared->sim.state = running;
-	shared->sim.philos_done = 0;
-	if (pthread_mutex_init(&shared->sim.mutex, NULL))
-		return (print_err("init_shared_mutexes: mutex init failure\n"));
+	parameters->sim.state = running;
+	parameters->sim.philos_done = 0;
+	if (pthread_mutex_init(&parameters->sim.mutex, NULL))
+		return (print_err("init_sim_mutex: mutex init failure\n"));
 	return (0);
 }
 
-int	init_shared(t_shared *shared, int argc, char *argv[])
+int	init_parameters(t_parameters *parameters, int argc, char *argv[])
 {
-	shared->philos_nbr = arg_to_int(argv[1]);
-	if (shared->philos_nbr == ERROR)
+	parameters->philos_nbr = arg_to_int(argv[1]);
+	if (parameters->philos_nbr == ERROR)
 		return (ERROR);
-	if (shared->philos_nbr > 1000)
+	if (parameters->philos_nbr > 1000)
 		return (print_err("philo: maximum nbr of philos is 1000\n"));
-	shared->time_to_die = arg_to_int(argv[2]);
-	if (shared->time_to_die == ERROR)
+	parameters->time_to_die = arg_to_int(argv[2]);
+	if (parameters->time_to_die == ERROR)
 		return (ERROR);
-	shared->time_to_eat = arg_to_int(argv[3]);
-	if (shared->time_to_eat == ERROR)
+	parameters->time_to_eat = arg_to_int(argv[3]);
+	if (parameters->time_to_eat == ERROR)
 		return (ERROR);
-	shared->time_to_sleep = arg_to_int(argv[4]);
-	if (shared->time_to_sleep == ERROR)
+	parameters->time_to_sleep = arg_to_int(argv[4]);
+	if (parameters->time_to_sleep == ERROR)
 		return (ERROR);
 	if (argc == 6)
-		shared->meals_nbr = arg_to_int(argv[5]);
+	{
+		parameters->meals_nbr = arg_to_int(argv[5]);
+		if (parameters->meals_nbr == ERROR)
+			return (ERROR);
+	}
 	else
-		shared->meals_nbr = UNSET;
-	if (shared->meals_nbr == ERROR)
-		return (ERROR);
-	if (init_shared_mutexes(shared) == ERROR)
+		parameters->meals_nbr = UNSET;
+	if (init_sim_mutex(parameters) == ERROR)
 		return (ERROR);
 	return (0);
 }

@@ -36,30 +36,34 @@ int	init_forks(t_fork **forks, int philos_nbr)
 
 int	init_philos(
 	t_philo **philos,
-	t_shared *shared,
+	t_parameters *parameters,
 	t_fork *forks
 )
 {
 	int		i;
 
-	*philos = malloc(sizeof(t_philo) * shared->philos_nbr);
+	*philos = malloc(sizeof(t_philo) * parameters->philos_nbr);
 	if (!*philos)
 		return (print_err("init_philos: mem alloc failure\n"));
 	i = 0;
-	while (i < shared->philos_nbr)
+	while (i < parameters->philos_nbr)
 	{
 		(*philos)[i].id = i;
 		(*philos)[i].forks = forks;
 		(*philos)[i].owned_forks[0] = 0;
 		(*philos)[i].owned_forks[1] = 0;
-		(*philos)[i].meals_taken = 0;
-		(*philos)[i].shared = shared;
+		if (pthread_mutex_init(&(*philos)[i].meals.mutex, NULL))
+		{
+			free_philos(*philos, i);
+			return (ERROR);
+		}
+		(*philos)[i].parameters = parameters;
 		++i;
 	}
 	return (0);
 }
 
-int	start_simulation(t_shared *shared, t_philo *philos)
+int	start_simulation(t_parameters *shared, t_philo *philos)
 {
 	pthread_t		*threads;
 
@@ -76,28 +80,28 @@ int	start_simulation(t_shared *shared, t_philo *philos)
 
 int	main(int argc, char *argv[])
 {
-	t_shared	shared;
-	t_fork		*forks;
-	t_philo		*philos;
+	t_parameters	parameters;
+	t_fork			*forks;
+	t_philo			*philos;
 
 	if (argc < 5 || argc > 6)
 		return (print_err("philo: invalid number of arguments\n"));
-	if (init_shared(&shared, argc, argv) == ERROR)
+	if (init_parameters(&parameters, argc, argv) == ERROR)
 		return (ERROR);
-	if (shared.philos_nbr == 0 || shared.meals_nbr == 0)
+	if (parameters.philos_nbr == 0 || parameters.meals_nbr == 0)
 		return (0);
-	if (init_forks(&forks, shared.philos_nbr) == ERROR)
+	if (init_forks(&forks, parameters.philos_nbr) == ERROR)
 	{
-		deinit_shared_mutexes(&shared);
+		deinit_sim_mutex(&parameters);
 		return (ERROR);
 	}
-	if (init_philos(&philos, (t_shared *)&shared, forks) == ERROR)
+	if (init_philos(&philos, &parameters, forks) == ERROR)
 	{
-		deinit_shared_mutexes(&shared);
-		free_forks(forks, shared.philos_nbr);
+		deinit_sim_mutex(&parameters);
+		free_forks(forks, parameters.philos_nbr);
 		return (ERROR);
 	}
-	if (start_simulation(&shared, philos) == ERROR)
-		return (free_all(&shared, forks, philos, ERROR));
-	return (free_all(&shared, forks, philos, 0));
+	if (start_simulation(&parameters, philos) == ERROR)
+		return (free_all(&parameters, forks, philos, ERROR));
+	return (free_all(&parameters, forks, philos, 0));
 }

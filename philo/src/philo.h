@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:13:55 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 14:46:56 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:00:14 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_sim
 	int				philos_done;
 }	t_sim;
 
-typedef struct s_shared
+typedef struct s_parameters
 {
 	int					philos_nbr;
 	int					time_to_die;
@@ -42,7 +42,7 @@ typedef struct s_shared
 	int					meals_nbr;
 	unsigned long long	start_time;
 	t_sim				sim;
-}	t_shared;
+}	t_parameters;
 
 typedef enum e_fork_state
 {
@@ -56,14 +56,24 @@ typedef struct s_fork
 	t_fork_state	state;
 }	t_fork;
 
+typedef struct	s_meal
+{
+	pthread_mutex_t		mutex;
+	unsigned long long	last;
+	int					done;
+}	t_meal;
+
+
+
 typedef struct s_philo
 {
 	int					id;
 	t_fork				*forks;
 	int					owned_forks[2];
-	int					meals_taken;
-	unsigned long long	last_meal;
-	t_shared			*shared;
+	t_meal				meals;
+	// int					meals_taken;
+	// unsigned long long	last_meal;
+	t_parameters		*parameters;
 }	t_philo;
 
 // error.c
@@ -72,24 +82,28 @@ int					print_err(char *msg);
 unsigned long long	get_time(void);
 unsigned long long	get_elapsed_time_ms(unsigned long long ref);
 // deinit.c
-int					deinit_shared_mutexes(t_shared *shared);
+int					deinit_sim_mutex(t_parameters *shared);
 int					free_forks(t_fork *forks, int philos_nbr);
+int					free_philos(t_philo *philos, int philos_nbr);
 int					free_all(
-						t_shared *shared,
+						t_parameters *shared,
 						t_fork *forks,
 						t_philo *philos,
 						int error);
 // parsing.c
-int					init_shared(t_shared *shared, int argc, char *argv[]);
+int					init_parameters(t_parameters *shared, int argc, char *argv[]);
 // print.c
 void				print_timestamp(char *str, t_philo *philo);
+void				print_timestamp_locked(char *str, t_philo *philo);
 void				print_death_timestamp(t_philo *philo);
 // threads_init.c
 int					alloc_threads(pthread_t **threads, int philos_nbr);
 int					init_threads(
 						pthread_t *threads,
 						t_philo *philos,
-						t_shared *shared);
+						t_parameters *shared);
+// monitor.c
+void				*routine_monitor(void *all_philos);
 // routine_fork_take.c
 t_fork				*right_fork(t_philo *philo);
 t_fork				*left_fork(t_philo *philo);
@@ -98,9 +112,9 @@ void				release_forks(t_philo *philo);
 // routine_utils.c
 int					is_even(int i);
 void				set_simulation_end(t_sim *sim_state, t_philo *philo);
-int					is_end_of_simulation(t_sim *sim_state);
+int					is_sim_end(t_sim *sim);
 int					reached_time(unsigned long long start_time, int time);
-void				check_meals_nbr(t_philo *philo);
+// void				check_meals_nbr(t_philo *philo);
 // routine.c
 void				*routine(void *philo_struct);
 

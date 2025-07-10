@@ -6,7 +6,7 @@
 /*   By: juportie <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 10:20:52 by juportie          #+#    #+#             */
-/*   Updated: 2025/07/02 14:45:53 by juportie         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:11:26 by juportie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ int	is_even(int i)
 
 void	set_simulation_end(t_sim *sim, t_philo *philo)
 {
-	pthread_mutex_lock(&sim->mutex);
+	// pthread_mutex_lock(&sim->mutex);
 	if (sim->state == running)
 	{
 		print_death_timestamp(philo);
 		sim->state = stop;
 	}
-	pthread_mutex_unlock(&sim->mutex);
+	// pthread_mutex_unlock(&sim->mutex);
 }
 
-int	is_end_of_simulation(t_sim *sim)
+int	is_sim_end(t_sim *sim)
 {
 	int	ret;
 
@@ -51,15 +51,15 @@ int	reached_time(unsigned long long start_time, int time)
 		return (0);
 }
 
-void	check_meals_nbr(t_philo *philo)
-{
-	if (philo->shared->meals_nbr != UNSET
-		&& philo->meals_taken >= philo->shared->meals_nbr)
-	{
-		pthread_mutex_lock(&philo->shared->sim.mutex);
-		++philo->shared->sim.philos_done;
-		if (philo->shared->sim.philos_done == philo->shared->philos_nbr)
-			philo->shared->sim.state = stop;
-		pthread_mutex_unlock(&philo->shared->sim.mutex);
-	}
-}
+// void	check_meals_nbr(t_philo *philo)
+// {
+// 	if (philo->parameters->meals_nbr != UNSET
+// 		&& philo->meals.done >= philo->parameters->meals_nbr)
+// 	{
+// 		pthread_mutex_lock(&philo->parameters->sim.mutex);
+// 		++philo->parameters->sim.philos_done;
+// 		if (philo->parameters->sim.philos_done == philo->parameters->philos_nbr)
+// 			philo->parameters->sim.state = stop;
+// 		pthread_mutex_unlock(&philo->parameters->sim.mutex);
+// 	}
+// }
