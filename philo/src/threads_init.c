@@ -30,7 +30,7 @@ static int	join_threads(pthread_t *threads, t_parameters *parameters)
 
 	i = 0;
 	ret = 0;
-	while (i < parameters->philos_nbr)
+	while (i <= parameters->philos_nbr)
 	{
 		if (pthread_join(threads[i], NULL))
 		{
