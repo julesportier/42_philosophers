@@ -13,19 +13,10 @@
 #include "philo.h"
 #include <unistd.h>
 
-static void	increment_meals(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->meals.mutex);
-	// pthread_mutex_lock(&philo->parameters->sim.mutex);
-	philo->meals.done += 1;
-	pthread_mutex_unlock(&philo->meals.mutex);
-	// pthread_mutex_unlock(&philo->parameters->sim.mutex);
-}
-
 static int	eat_philo(t_philo *philo)
 {
 	philo->meals.last = get_time();
-	print_timestamp_locked("is eating", philo);
+	print_timestamp("is eating", philo);
 	pthread_mutex_unlock(&philo->meals.mutex);
 	while (!reached_time(philo->meals.last, philo->parameters->time_to_eat))
 	{
@@ -38,9 +29,6 @@ static int	eat_philo(t_philo *philo)
 	}
 	increment_meals(philo);
 	release_forks(philo);
-	// check_meals_nbr(philo);
-	// if (is_end_of_simulation(&philo->parameters->sim))
-	// 	return (SIM_END);
 	return (0);
 }
 
@@ -49,7 +37,7 @@ static int	sleep_philo(t_philo *philo)
 	unsigned long long	start_time;
 
 	start_time = get_time();
-	print_timestamp_locked("is sleeping", philo);
+	print_timestamp("is sleeping", philo);
 	while (!reached_time(start_time, philo->parameters->time_to_sleep))
 	{
 		usleep(WAIT_TIME);
@@ -66,12 +54,9 @@ static int	sleep_philo(t_philo *philo)
 // retry taking already owned fork 1 ; break)
 static int	think_philo(t_philo *philo)
 {
-	if (is_sim_end(&philo->parameters->sim))
-		return (SIM_END);
-	print_timestamp_locked("is thinking", philo);
+	print_timestamp("is thinking", philo);
 	while (1)
 	{
-		// PUT USLEEP AT THE END ?? SYNC ??
 		usleep(WAIT_TIME);
 		if (is_sim_end(&philo->parameters->sim))
 		{
@@ -83,7 +68,6 @@ static int	think_philo(t_philo *philo)
 		if (philo->owned_forks[0] && philo->owned_forks[1])
 		{
 			pthread_mutex_lock(&philo->meals.mutex);
-			// pthread_mutex_lock(&philo->parameters->sim.mutex);
 			break ;
 		}
 		if (!philo->owned_forks[1])
@@ -91,18 +75,10 @@ static int	think_philo(t_philo *philo)
 		if (philo->owned_forks[0] && philo->owned_forks[1])
 		{
 			pthread_mutex_lock(&philo->meals.mutex);
-			// pthread_mutex_lock(&philo->parameters->sim.mutex);
 			break ;
 		}
 	}
 	return (0);
-}
-
-static void	init_last_meal(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->meals.mutex);
-	philo->meals.last = philo->parameters->start_time;
-	pthread_mutex_unlock(&philo->meals.mutex);
 }
 
 void	*routine(void *philo_struct)

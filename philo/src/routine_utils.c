@@ -20,17 +20,6 @@ int	is_even(int i)
 		return (0);
 }
 
-void	set_simulation_end(t_sim *sim, t_philo *philo)
-{
-	// pthread_mutex_lock(&sim->mutex);
-	if (sim->state == running)
-	{
-		print_death_timestamp(philo);
-		sim->state = stop;
-	}
-	// pthread_mutex_unlock(&sim->mutex);
-}
-
 int	is_sim_end(t_sim *sim)
 {
 	int	ret;
@@ -51,15 +40,16 @@ int	reached_time(unsigned long long start_time, int time)
 		return (0);
 }
 
-// void	check_meals_nbr(t_philo *philo)
-// {
-// 	if (philo->parameters->meals_nbr != UNSET
-// 		&& philo->meals.done >= philo->parameters->meals_nbr)
-// 	{
-// 		pthread_mutex_lock(&philo->parameters->sim.mutex);
-// 		++philo->parameters->sim.philos_done;
-// 		if (philo->parameters->sim.philos_done == philo->parameters->philos_nbr)
-// 			philo->parameters->sim.state = stop;
-// 		pthread_mutex_unlock(&philo->parameters->sim.mutex);
-// 	}
-// }
+void	increment_meals(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->meals.mutex);
+	philo->meals.done += 1;
+	pthread_mutex_unlock(&philo->meals.mutex);
+}
+
+void	init_last_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->meals.mutex);
+	philo->meals.last = philo->parameters->start_time;
+	pthread_mutex_unlock(&philo->meals.mutex);
+}

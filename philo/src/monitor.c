@@ -31,6 +31,15 @@ static int	all_philos_repleted(
 	return (0);
 }
 
+static void	set_simulation_end(t_sim *sim, t_philo *philo)
+{
+	if (sim->state == running)
+	{
+		print_death_timestamp(philo);
+		sim->state = stop;
+	}
+}
+
 static int	must_stop_simulation(
 	t_philo *philo,
 	t_parameters *parameters,
@@ -72,7 +81,7 @@ void	*routine_monitor(void *all_philos)
 	{
 		i = 0;
 		philos_repleted = 0;
-	 	while (i < parameters->philos_nbr)
+		while (i < parameters->philos_nbr)
 		{
 			if (must_stop_simulation(&philos[i], parameters, &philos_repleted))
 				return (0);

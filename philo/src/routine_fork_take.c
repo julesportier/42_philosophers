@@ -29,7 +29,7 @@ void	try_take_fork(t_fork *fork, t_philo *philo, int side)
 	{
 		fork->state = locked;
 		philo->owned_forks[side] = 1;
-		print_timestamp_locked("has taken a fork", philo);
+		print_timestamp("has taken a fork", philo);
 	}
 	pthread_mutex_unlock(&fork->mutex);
 }

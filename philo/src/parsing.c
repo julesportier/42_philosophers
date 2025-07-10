@@ -60,7 +60,6 @@ static int	arg_to_int(char *nptr)
 static int	init_sim_mutex(t_parameters *parameters)
 {
 	parameters->sim.state = running;
-	parameters->sim.philos_done = 0;
 	if (pthread_mutex_init(&parameters->sim.mutex, NULL))
 		return (print_err("init_sim_mutex: mutex init failure\n"));
 	return (0);

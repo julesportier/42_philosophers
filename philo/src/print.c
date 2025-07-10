@@ -34,6 +34,7 @@ int	print_err(char *str)
 
 void	print_timestamp(char *str, t_philo *philo)
 {
+	pthread_mutex_lock(&philo->parameters->sim.mutex);
 	if (philo->parameters->sim.state == running)
 	{
 		printf(
@@ -42,12 +43,6 @@ void	print_timestamp(char *str, t_philo *philo)
 			philo->id + 1,
 			str);
 	}
-}
-
-void	print_timestamp_locked(char *str, t_philo *philo)
-{
-	pthread_mutex_lock(&philo->parameters->sim.mutex);
-	print_timestamp(str, philo);
 	pthread_mutex_unlock(&philo->parameters->sim.mutex);
 }
 

@@ -30,7 +30,6 @@ typedef struct s_sim
 {
 	pthread_mutex_t	mutex;
 	t_sim_state		state;
-	int				philos_done;
 }	t_sim;
 
 typedef struct s_parameters
@@ -56,14 +55,12 @@ typedef struct s_fork
 	t_fork_state	state;
 }	t_fork;
 
-typedef struct	s_meal
+typedef struct s_meal
 {
 	pthread_mutex_t		mutex;
 	unsigned long long	last;
 	int					done;
 }	t_meal;
-
-
 
 typedef struct s_philo
 {
@@ -71,8 +68,6 @@ typedef struct s_philo
 	t_fork				*forks;
 	int					owned_forks[2];
 	t_meal				meals;
-	// int					meals_taken;
-	// unsigned long long	last_meal;
 	t_parameters		*parameters;
 }	t_philo;
 
@@ -91,10 +86,12 @@ int					free_all(
 						t_philo *philos,
 						int error);
 // parsing.c
-int					init_parameters(t_parameters *shared, int argc, char *argv[]);
+int					init_parameters(
+						t_parameters *shared,
+						int argc, char
+						*argv[]);
 // print.c
 void				print_timestamp(char *str, t_philo *philo);
-void				print_timestamp_locked(char *str, t_philo *philo);
 void				print_death_timestamp(t_philo *philo);
 // threads_init.c
 int					alloc_threads(pthread_t **threads, int philos_nbr);
@@ -111,10 +108,10 @@ void				try_take_fork(t_fork *fork, t_philo *philo, int side);
 void				release_forks(t_philo *philo);
 // routine_utils.c
 int					is_even(int i);
-void				set_simulation_end(t_sim *sim_state, t_philo *philo);
 int					is_sim_end(t_sim *sim);
 int					reached_time(unsigned long long start_time, int time);
-// void				check_meals_nbr(t_philo *philo);
+void				increment_meals(t_philo *philo);
+void				init_last_meal(t_philo *philo);
 // routine.c
 void				*routine(void *philo_struct);
 
