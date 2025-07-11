@@ -70,7 +70,7 @@ int	free_all(
 		if (free_forks(forks, parameters->philos_nbr) == ERROR)
 			ret = ERROR;
 	}
-	if (philos)
+	if (parameters && philos)
 	{
 		if (free_philos(philos, parameters->philos_nbr) == ERROR)
 			ret = ERROR;
