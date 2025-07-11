@@ -57,6 +57,8 @@ int	init_philos(
 			free_philos(*philos, i);
 			return (ERROR);
 		}
+		(*philos)[i].meals.done = 0;
+		(*philos)[i].meals.last = get_time();
 		(*philos)[i].parameters = parameters;
 		++i;
 	}
