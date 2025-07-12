@@ -77,17 +77,17 @@ int					print_err(char *msg);
 unsigned long long	get_time(void);
 unsigned long long	get_elapsed_time_ms(unsigned long long ref);
 // deinit.c
-int					deinit_sim_mutex(t_parameters *shared);
+int					deinit_sim_mutex(t_parameters *parameters);
 int					free_forks(t_fork *forks, int philos_nbr);
 int					free_philos(t_philo *philos, int philos_nbr);
 int					free_all(
-						t_parameters *shared,
+						t_parameters *parameters,
 						t_fork *forks,
 						t_philo *philos,
 						int error);
 // parsing.c
 int					init_parameters(
-						t_parameters *shared,
+						t_parameters *parameters,
 						int argc, char
 						*argv[]);
 // print.c
@@ -98,7 +98,7 @@ int					alloc_threads(pthread_t **threads, int philos_nbr);
 int					init_threads(
 						pthread_t *threads,
 						t_philo *philos,
-						t_parameters *shared);
+						t_parameters *parameters);
 // monitor.c
 void				*routine_monitor(void *all_philos);
 // routine_fork_take.c

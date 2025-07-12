@@ -65,13 +65,13 @@ int	init_philos(
 	return (0);
 }
 
-int	start_simulation(t_parameters *shared, t_philo *philos)
+int	start_simulation(t_parameters *parameters, t_philo *philos)
 {
 	pthread_t		*threads;
 
-	if (alloc_threads(&threads, shared->philos_nbr) == ERROR)
+	if (alloc_threads(&threads, parameters->philos_nbr) == ERROR)
 		return (ERROR);
-	if (init_threads(threads, philos, shared) == ERROR)
+	if (init_threads(threads, philos, parameters) == ERROR)
 	{
 		free(threads);
 		return (ERROR);
