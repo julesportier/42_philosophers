@@ -20,16 +20,16 @@ static int	ft_isdigit(char c)
 		return (0);
 }
 
-static int	overflows(int nbr_n, int nbr_n1)
+static int	overflows(int nbr, int add)
 {
 	int	mul;
 
-	if (nbr_n != 0)
+	if (nbr != 0)
 	{
-		mul = nbr_n * 10;
-		if (nbr_n != mul / 10)
+		mul = nbr * 10;
+		if (nbr != mul / 10)
 			return (1);
-		if (mul > 2147483647 - nbr_n1)
+		if (mul > 2147483647 - add)
 			return (1);
 	}
 	return (0);
