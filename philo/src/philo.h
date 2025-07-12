@@ -93,12 +93,8 @@ int					init_parameters(
 // print.c
 void				print_timestamp(char *str, t_philo *philo);
 void				print_death_timestamp(t_philo *philo);
-// threads_init.c
-int					alloc_threads(pthread_t **threads, int philos_nbr);
-int					init_threads(
-						pthread_t *threads,
-						t_philo *philos,
-						t_parameters *parameters);
+// start_simulation.c
+int					start_simulation(t_parameters *parameters, t_philo *philos);
 // monitor.c
 void				*routine_monitor(void *all_philos);
 // routine_fork_take.c

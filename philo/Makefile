@@ -14,7 +14,7 @@ SRC := main.c \
 	   deinit.c \
 	   parsing.c \
 	   print.c \
-	   threads_init.c \
+	   start_simulation.c \
 	   routine_fork_take.c \
 	   routine_utils.c \
 	   routine.c \
