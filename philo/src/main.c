@@ -55,7 +55,7 @@ int	init_philos(
 		if (pthread_mutex_init(&(*philos)[i].meals.mutex, NULL))
 		{
 			free_philos(*philos, i);
-			return (ERROR);
+			return (print_err("init_philos: mutex init failure\n"));
 		}
 		(*philos)[i].meals.done = 0;
 		(*philos)[i].meals.last = get_time();
