@@ -86,8 +86,12 @@ void	*routine(void *philo_struct)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_struct;
+	pthread_mutex_lock(&philo->meals.mutex);
 	if (is_sim_end(&philo->parameters->sim))
+	{
+		pthread_mutex_unlock(&philo->meals.mutex);
 		return (0);
+	}
 	init_last_meal(philo);
 	if (!is_even(philo->id))
 	{

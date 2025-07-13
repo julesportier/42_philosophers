@@ -49,7 +49,6 @@ void	increment_meals(t_philo *philo)
 
 void	init_last_meal(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->meals.mutex);
 	philo->meals.last = philo->parameters->start_time;
 	pthread_mutex_unlock(&philo->meals.mutex);
 }

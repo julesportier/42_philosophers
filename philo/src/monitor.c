@@ -61,8 +61,8 @@ static int	must_stop_simulation(
 		pthread_mutex_unlock(&philo->meals.mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->meals.mutex);
 	pthread_mutex_unlock(&parameters->sim.mutex);
+	pthread_mutex_unlock(&philo->meals.mutex);
 	return (0);
 }
 
