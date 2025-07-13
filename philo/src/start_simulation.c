@@ -19,7 +19,7 @@ int	alloc_threads(pthread_t **threads, int philos_nbr)
 	*threads = malloc(sizeof(pthread_t) * (philos_nbr + 1));
 	if (!*threads)
 		return (print_err("alloc_threads: mem alloc failure\n"));
-	memset(*threads, 0, sizeof(pthread_t) * philos_nbr);
+	memset(*threads, 0, sizeof(pthread_t) * (philos_nbr + 1));
 	return (0);
 }
 
